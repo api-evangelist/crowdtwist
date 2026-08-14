@@ -35,7 +35,7 @@ x-acquired-by: oracle
 x-acquired-date: '2019-03'
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-13'
 tags:
 - Company
 - Loyalty
@@ -45,7 +45,62 @@ tags:
 - Rewards
 - Oracle
 - CX Marketing
-apis: []
+- Loyalty Programs
+- Points
+- Retail
+- Commerce
+- Segmentation
+- Webhooks
+apis:
+- aid: crowdtwist-loyalty
+  name: Oracle CrowdTwist Loyalty and Engagement API
+  description: >-
+    The core CrowdTwist REST/JSON API for loyalty program members and their points economy —
+    create, read, update and delete members; award points for activities; read the activity,
+    reward and badge catalogues; redeem rewards; read redemption history, usable coupons,
+    points expiration and the leaderboard. Authentication is a per-client API key sent either
+    as an api_key query parameter or an X-CT-Authorization header, with optional HMAC-SHA-256
+    request signing. Versioning is per resource: /v2, /v2.1 and /v2.2 are all current at once,
+    and superseded revisions stay online labelled "(legacy)". The host is templated per
+    customer — {client_id} is a CrowdTwist-issued number and the environment prefix selects
+    production, sandbox or a regional instance.
+  humanURL: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/GettingStarted.html
+  baseURL: https://api{client_id}.crowdtwist.com/v2
+  tags:
+  - Loyalty
+  - Members
+  - Rewards
+  - Points
+  - Activities
+  properties:
+  - type: Documentation
+    url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/GettingStarted.html
+  - type: Postman
+    url: postman/crowdtwist-starter-kit.postman_collection.json
+  - type: Authentication
+    url: authentication/crowdtwist-authentication.yml
+- aid: crowdtwist-commerce
+  name: Oracle CrowdTwist Commerce (POS) API
+  description: >-
+    The point-of-sale side of CrowdTwist, served from a separate templated host. Purchase posts
+    a receipt with line items, tenders and coupons and returns the per-item point breakdown
+    including bonus-campaign multipliers; Fulfillment marks a redemption shipped; Return
+    reverses points for a returned purchase. Authentication is the client API key in an
+    X-CT-Authorization header — HMAC signing is explicitly NOT supported on this host. The
+    receipt_id field is documented as a unique identifier per request and duplicates are
+    rejected, which makes Purchase the only de-duplicated write in the platform.
+  humanURL: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
+  baseURL: https://pos{client_id}.crowdtwist.com
+  tags:
+  - Commerce
+  - Point of Sale
+  - Receipts
+  - Fulfillment
+  properties:
+  - type: Documentation
+    url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
+  - type: ErrorCatalog
+    url: errors/crowdtwist-error-codes.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -60,8 +115,52 @@ common:
   url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/index.html
 - type: DeveloperPortal
   url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/index.html
+- type: APIReference
+  url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/GettingStarted.html
+- type: GettingStarted
+  url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/GettingStarted.html
+- type: Support
+  url: https://support.oracle.com/
+- type: TermsOfService
+  url: https://www.oracle.com/legal/terms/
+- type: PrivacyPolicy
+  url: https://www.oracle.com/legal/privacy/
+- type: Postman
+  url: postman/crowdtwist-starter-kit.postman_collection.json
+- type: Authentication
+  url: authentication/crowdtwist-authentication.yml
+- type: Conventions
+  url: conventions/crowdtwist-conventions.yml
+- type: ErrorCatalog
+  url: errors/crowdtwist-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/crowdtwist-lifecycle.yml
+- type: ChangeLog
+  url: changelog/crowdtwist-changelog.yml
+- type: Webhooks
+  url: asyncapi/crowdtwist-data-push-webhooks.yml
+- type: Sandbox
+  url: sandbox/crowdtwist-sandbox.yml
+- type: Plans
+  url: plans/crowdtwist-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/crowdtwist-rate-limits.yml
+- type: DataModel
+  url: data-model/crowdtwist-data-model.yml
+- type: Conformance
+  url: conformance/crowdtwist-conformance.yml
+- type: Packages
+  url: packages/crowdtwist-packages.yml
+- type: LLMsTxt
+  url: llms/crowdtwist-llms.txt
+- type: Security
+  url: security/crowdtwist-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/crowdtwist-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: security/crowdtwist-trust-center.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 20
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
