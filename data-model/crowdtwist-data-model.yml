@@ -1,0 +1,239 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  Derived from the Oracle CrowdTwist Developer Help Center endpoint reference
+  (docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/*) and
+  postman/crowdtwist-starter-kit.postman_collection.json. There is no OpenAPI to derive $ref
+  links from, so entities and relationships are read from the published request/response field
+  tables and the id-reference fields inside them.
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+entity_count: 12
+id_style: >-
+  Opaque integer surrogate keys with no type prefix (e.g. activity_id 410052775, reward_id
+  123456, user_id 47111810). CrowdTwist does not use prefixed IDs, so an ID alone does not
+  identify its entity type.
+alternate_keys:
+  note: >-
+    The User entity is uniquely addressable by seven different caller-chosen keys, selected with
+    the `id_type` query parameter. This is the defining feature of the data model.
+  id_types:
+  - id (CrowdTwist ID — the default when id_type is omitted)
+  - email
+  - facebook_user_id
+  - twitter_user_id
+  - third_party_id
+  - username
+  - mobile_phone_number
+  - inst_username (Instagram)
+entities:
+- name: User
+  aka: Member
+  path: /v2/users/{user_id}
+  key: id
+  operations:
+  - POST /v2/users
+  - GET /v2/users/{user_id}
+  - PUT /v2/users/{user_id}
+  - DELETE /v2/users/{user_id}
+  fields:
+  - first_name
+  - last_name
+  - date_of_birth
+  - email_address
+  - email_is_verified
+  - postal_code
+  - country
+  - city
+  - state
+  - lang_pref
+  - third_party_id
+  - username
+  - mobile_phone_number
+  - invite_code
+  - gender
+  - date_tier_assigned
+  - ct_date_last_login
+- name: Activity
+  path: /v2/activities and /v2.1/activities/extended
+  key: id
+  description: The catalogue of earnable actions in a program.
+  fields:
+  - id
+  - name
+  - title
+  - description
+  - num_points
+  - image
+  - category_id
+  - category_name
+  - type_id
+  - type_name
+  - activity_channel_id
+  - activity_channel_name
+  - freq_cap
+  - freq_period_id
+  enums:
+    category_id:
+      1: Share
+      2: Socialize
+      3: Interact
+      4: Buy
+    type_id:
+      1: Facebook
+      2: Merchandise
+      3: Music
+      4: Tickets
+      5: Twitter
+      6: Your Site
+      7: Check-In
+      8: Code Redemption
+- name: UserActivity
+  aka: Activity completion
+  path: /v2/users/{user_id}/activities, /v2.1/users/{user_id}/activity_history
+  key: user_activity_id
+  fields:
+  - user_activity_id
+  - activity_id
+  - activity_name
+  - num_points
+  - notes
+  - activity_date
+  - extra_data
+- name: Reward
+  path: /v2.1/rewards
+  key: reward_id
+  fields:
+  - title
+  - description
+  - current_quantity
+  - points_required
+  - display_date_start
+  - reward_group_id
+  - category
+  - extra_data
+- name: UserReward
+  path: /v2.1/users/{user_id}/rewards
+  description: The rewards catalogue filtered to what a given member can see or redeem.
+- name: Redemption
+  path: /v2/users/{user_id}/redemption
+  key: order_id
+  fields:
+  - reward_id
+  - quantity
+  - ending_balance
+  - codes
+  - digital_download
+  - shipping_first_name
+  - shipping_last_name
+  - shipping_street_address_1
+  - shipping_street_address_2
+  - shipping_city
+  - shipping_state
+  - shipping_postal_code
+  - shipping_country
+  - shipping_phone_number
+  - custom_data
+- name: Purchase
+  aka: Receipt
+  path: POST /purchase (POS host)
+  key: receipt_id
+  fields:
+  - receipt_id
+  - order_id
+  - user_id
+  - total
+  - subtotal
+  - date_purchased
+  - channel_id
+  - currency
+  - items
+  - tenders
+  - coupons
+  - custom_data
+  - user_attributes
+- name: PurchaseItem
+  parent: Purchase
+  fields:
+  - sku
+  - price
+  - quantity
+  - transaction_id
+  - points_awarded
+  - is_excluded
+  - campaigns
+  - transaction
+  - tenders
+  - custom_data
+- name: Coupon
+  path: /v2/users/{user_id}/usable_coupons, POST /v2/coupon/use
+- name: Badge
+  path: /v2.1/badges
+- name: Tier
+  description: Member tier assignment; surfaced on the profile and in the Live Push User Profile payload (Tiers v2).
+  fields:
+  - date_tier_assigned
+- name: Segment
+  description: A subset of active members; membership changes are emitted as Data Push events.
+  fields:
+  - subscription_id
+  - name
+  - type
+relationships:
+- from: User
+  to: UserActivity
+  type: has_many
+  via: user_id
+- from: UserActivity
+  to: Activity
+  type: belongs_to
+  via: activity_id
+- from: User
+  to: Redemption
+  type: has_many
+  via: user_id
+- from: Redemption
+  to: Reward
+  type: belongs_to
+  via: reward_id
+- from: Reward
+  to: RewardGroup
+  type: belongs_to
+  via: reward_group_id
+- from: User
+  to: Purchase
+  type: has_many
+  via: user_id
+- from: Purchase
+  to: PurchaseItem
+  type: has_many
+  via: items[]
+- from: PurchaseItem
+  to: Coupon
+  type: has_many
+  via: coupons[]
+- from: User
+  to: Tier
+  type: has_one
+  via: date_tier_assigned
+- from: User
+  to: Segment
+  type: has_many
+  via: subscription_id
+- from: User
+  to: Badge
+  type: has_many
+  via: badges
+- from: Activity
+  to: ActivityChannel
+  type: belongs_to
+  via: activity_channel_id
+notes:
+- >-
+  Points are not a first-class entity — the balance is a derived integer (`ending_balance`,
+  `num_points`) returned by the operations that move it, plus a dedicated points-expiration read.
+- >-
+  Program-specific attributes ride in untyped `custom_data` / `extra_data` / `user_attributes`
+  objects whose keys are configured per customer and are NOT published in the API reference.
+- >-
+  The batch Data Push CSV schemas (see asyncapi/) are the most complete published field lists for
+  User, UserActivity and Redemption.

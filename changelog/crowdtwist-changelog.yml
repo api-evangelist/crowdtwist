@@ -1,0 +1,78 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/releases.html
+docs:
+- https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/releases.html
+- https://www.oracle.com/webfolder/technetwork/tutorials/tutorial/cloud/crowdtwist/new-crowdtwist-wn.htm
+api: Oracle CrowdTwist Loyalty and Engagement
+name: Oracle CrowdTwist Loyalty and Engagement — Releases
+scheme: dated monthly release, published as a "Release Readiness / Feature Summary" guide
+url_pattern: https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/{MMYY}/c_feature_summary.htm
+current_release: '2026-06'
+history_span: 2022-11 through 2026-06
+release_count_listed: 41
+cadence: monthly (with occasional skipped months)
+breaking_change_signalling: >-
+  The Feature Summary marks every item with Scale (Small/Large), Delivered (enabled on upgrade
+  or not), and Customer Action Required. It does not carry an explicit breaking/non-breaking
+  flag; the API compatibility contract lives on the API Best Practices page instead.
+entries:
+- version: '2026-06'
+  date: '2026-06'
+  url: https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/0626/c_feature_summary.htm
+  breaking: false
+  modules:
+  - Campaigns
+  - Integrations
+  - Rewards
+  - Data
+  highlights:
+  - Opt-in support for Activity Campaigns (previously Commerce Campaigns only).
+  - Frequency capping for Activity Campaigns.
+  - Xstore Plug-in v2 — points redemption at point of sale, customer-facing marketing messages, custom receipt trailers.
+  - Rewards in active use by a widget can now be disabled without removing them from the widget config.
+  - Segment dashboard filter added to Control Center reporting.
+- version: '2026-05'
+  date: '2026-05'
+  url: https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/0526/c_feature_summary.htm
+  breaking: false
+  modules:
+  - Campaigns
+  - Widgets
+  - Points Expiration
+  highlights:
+  - Frequency capping for Commerce Campaigns.
+  - New Badges widget.
+  - Reusable Points Expiration schedules (default, country-specific and reusable rules).
+  - 'API change: version 3 of the Points Expiration API returns points expiring plus expiration date/time per balance.'
+- version: '2026-04'
+  date: '2026-04'
+  url: https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/0426/c_feature_summary.htm
+  breaking: false
+  modules:
+  - Commerce
+  - Members
+  highlights:
+  - 'API change: Usable Coupons now returns the associated reward''s Additional Data (extra_data) so POS and web integrations can read the coupon code value or denomination.'
+  - 'API change: User Create no longer requires country or city — omitted values default to "unknown" and are passed downstream.'
+recent_releases_index:
+- '2026-06'
+- '2026-05'
+- '2026-04'
+- '2026-03'
+- '2026-02'
+- '2026-01'
+- '2025-11'
+- '2025-10'
+- '2025-09'
+- '2025-08'
+- '2025-07'
+- '2025-06'
+- '2025-05'
+- '2025-04'
+- '2025-03'
+- '2025-02'
+- '2025-01'
+note: >-
+  Only the three most recent releases are transcribed in detail; the index above records the
+  window Oracle currently publishes. Releases back to 2022-11 remain listed on the releases page.

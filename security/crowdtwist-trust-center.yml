@@ -1,0 +1,60 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.oracle.com/corporate/cloud-compliance/
+api: Oracle CrowdTwist Loyalty and Engagement
+summary: >-
+  There is no CrowdTwist trust center. The trust surface for this product is Oracle's corporate
+  Cloud Compliance program, which is the correct owner under the parent-brand rule — Oracle
+  acquired CrowdTwist in March 2019, sells it as an Oracle Cloud Service under the Oracle Cloud
+  Hosting and Delivery Policies, and the Service Descriptions document explicitly subjects a
+  CrowdTwist order to "the Oracle Cloud Hosting and Delivery Policies and the Oracle SaaS Public
+  Cloud Services pillar documentation".
+trust_center:
+  published: true
+  owner: Oracle Corporation (parent)
+  url: https://www.oracle.com/corporate/cloud-compliance/
+  http_status: 200
+  fetched: '2026-08-13'
+  contracts_hub: https://www.oracle.com/contracts
+  security_practices: https://www.oracle.com/corporate/security-practices/
+programs_named_on_the_page:
+- SOC 1
+- SOC 2
+- SOC 3
+- ISO/IEC 27001
+- ISO/IEC 27017
+- ISO/IEC 27018
+- PCI DSS
+- HIPAA
+- FedRAMP
+- CSA STAR
+- C5
+- IRAP
+scope_caveat: >-
+  IMPORTANT — these are the programs Oracle names across its cloud portfolio, not certifications
+  attested for Oracle CrowdTwist Loyalty and Engagement. Oracle publishes no per-service scope
+  statement naming CrowdTwist, and CrowdTwist does not appear on any attestation listing we could
+  reach without a login. Nothing here should be read as "CrowdTwist is FedRAMP authorized".
+crowdtwist_specific:
+  certifications_published: false
+  service_description: https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+  service_description_effective: '2024-09-12'
+  published_commitments:
+    target_service_availability: 99.8%
+    rto: 72 hours
+    rpo: 24 hours
+    data_residency: >-
+      Global Data Center Region option allows deployment in any eligible Oracle cloud region;
+      dedicated DE (Germany) and US2 production environments are documented on the API endpoint
+      reference page.
+  privacy_controls_in_product:
+  - member delete endpoint (DELETE /v2/users/{user_id})
+  - PII-minimised member creation (POST /v2/users?pii=false)
+  - COPPA date-of-birth validation
+pointer_note: >-
+  A `TrustCenter` pointer is wired in apis.yml. A `Compliance` pointer deliberately is NOT — the
+  certifications above are Oracle-wide, and asserting them for CrowdTwist would credit this
+  product with attestations whose scope its own vendor does not publish.
+legal:
+  terms_of_service: https://www.oracle.com/legal/terms/
+  privacy_policy: https://www.oracle.com/legal/privacy/

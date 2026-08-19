@@ -1,0 +1,101 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  Derived from the Oracle CrowdTwist Developer Help Center (API Best Practices, HMAC
+  Authentication, Purchase, User Create) plus the Oracle CrowdTwist Cloud Service Service
+  Descriptions PDF. Every `conforms` value below is backed by a specific published statement or
+  by the absence of one.
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+standards:
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document exists on any CrowdTwist or Oracle Help Center host. Probed
+    /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc on
+    api.crowdtwist.com and the docs host — all 404 or 302. The only machine-readable contract is
+    a Postman v2.1 collection.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    A real outbound event surface exists (Data Push) but no AsyncAPI or CloudEvents document is
+    published for it. See asyncapi/crowdtwist-data-push-webhooks.yml.
+- id: graphql
+  conforms: false
+  evidence: No GraphQL surface is documented or discoverable.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    The inbound API uses API keys and optional HMAC signing only. OAuth 2.0 appears solely in the
+    outbound Salesforce Marketing Cloud Data Push integration, where CrowdTwist is the OAuth
+    CLIENT against the customer's SFMC instance — not an OAuth surface CrowdTwist exposes.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on api.crowdtwist.com and 301 on crowdtwist.com.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are plain application/json in one of two bespoke envelopes ({error,message} and
+    {system,reason,description,message}); no application/problem+json.
+- id: rfc8594
+  conforms: false
+  evidence: No Sunset or Deprecation response headers; superseded endpoints are only labelled "(legacy)" in prose.
+- id: rfc9116
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on api.crowdtwist.com and 301 on crowdtwist.com.
+- id: idempotency
+  conforms: partial
+  evidence: >-
+    `receipt_id` on the Purchase endpoint is documented as "a unique identifier of this request"
+    and duplicates are rejected with `not_unique`. No Idempotency-Key header and no API-wide
+    idempotency contract. See conventions/crowdtwist-conventions.yml.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Page-number pagination (`page`, `page_size`) with documented maximums (25, or 10 on user
+    rewards) and documented out-of-range behaviour on the v2.1 catalogue endpoints.
+- id: hmac_rfc2104
+  conforms: true
+  evidence: >-
+    Optional HMAC-SHA-256 request signing with a canonical StringToSign
+    (verb, Content-MD5, Content-Type, timestamp, request URI) and a 15-minute replay window via
+    X-CT-Timestamp.
+- id: tls12
+  conforms: true
+  evidence: >-
+    Oracle publishes TLS 1.2 support with an explicit supported cipher-suite list and warns that
+    clients without TLS 1.2 cannot connect. Live probe of crowdtwist.com confirms TLSv1.2 with HSTS
+    (max-age 31536000) — see security/crowdtwist-domain-security.yml.
+- id: iso4217
+  conforms: true
+  evidence: 'Purchase validates currency codes and rejects non-ISO-4217 values: "Currency code must be ISO-4217 compliant."'
+- id: iso8601
+  conforms: partial
+  evidence: >-
+    Data Push payloads use ISO-8601 timestamps and the docs state the field "must be an ISO-8601
+    compliant date field". The REST API itself uses Unix epoch seconds on most date fields, and
+    the Responsys push converts everything to MM/DD/YYYY HH:MI:SS.
+- id: iso639_language_codes
+  conforms: true
+  evidence: >-
+    `lang_pref` accepts a published fixed list of language codes (Language Codes reference page).
+- id: json_schema
+  conforms: false
+  evidence: No JSON Schema documents are published for any request or response body.
+- id: webhooks_signed
+  conforms: false
+  evidence: >-
+    Outbound Data Push payloads are not signed. Authentication runs the other way — the customer
+    supplies Basic credentials or an x-api-key for CrowdTwist to present.
+compliance:
+  crowdtwist_specific_certifications_published: false
+  note: >-
+    Oracle publishes a corporate Cloud Compliance program naming SOC 1/2/3, ISO/IEC 27001/27017/27018,
+    PCI DSS, HIPAA, FedRAMP, C5, IRAP and CSA STAR, but the per-service scope for Oracle CrowdTwist
+    Loyalty and Engagement is not published and CrowdTwist is not named on any attestation page we
+    could reach. No canonical `Compliance` pointer is wired for that reason — see
+    security/crowdtwist-trust-center.yml.
+  privacy_features_in_api:
+  - 'DELETE /v2/users/{user_id} — member deletion endpoint.'
+  - 'POST /v2/users?pii=false — create a member with only a third_party_id; name, email and postal code are defaulted.'
+  - COPPA handling — date_of_birth becomes required and validated when COPPA is enabled for the program.
+  - Minimum-age enforcement on redemption (403 forbidden with the program minimum age).

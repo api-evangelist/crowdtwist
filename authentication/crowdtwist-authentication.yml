@@ -1,0 +1,103 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/HMACAuthentication.html
+docs:
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/HMACAuthentication.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/MobileAPIAuthentication.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/EndpointURLEnvironments.html
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+summary: >-
+  CrowdTwist authenticates server-to-server traffic with a per-client API key, which may be
+  sent either as an `api_key` query-string parameter or in an `X-CT-Authorization` header.
+  Clients who enable it can upgrade to HMAC-SHA-256 request signing over the same key pair.
+  End-user (mobile) traffic uses a separate HMAC-signed authentication endpoint that returns
+  a six-month user session token. There is no OAuth 2.0, no OpenID Connect and no published
+  scope model on this API.
+schemes:
+- id: api_key_query
+  type: apiKey
+  in: query
+  name: api_key
+  required: true
+  description: >-
+    The client API key, issued by the CrowdTwist account team and visible in the CrowdTwist
+    Control Center. Sent on nearly every documented v2/v2.1/v2.2 endpoint as `?api_key=`.
+  applies_to: all api[client_id].crowdtwist.com endpoints
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserCreate.html
+- id: api_key_header
+  type: apiKey
+  in: header
+  name: X-CT-Authorization
+  value_format: 'CTApiKey <API Key>'
+  required: false
+  description: >-
+    The same client API key presented as a header instead of a query parameter. Oracle's docs
+    note explicitly that there is a single space between `CTApiKey` and the key value. This is
+    the documented form on the POS/commerce endpoints (purchase, fulfillment, return).
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
+- id: hmac_v2
+  type: http
+  scheme: signature
+  algorithm: HMAC-SHA-256
+  required: false
+  description: >-
+    Optional request signing, enabled per client. Headers are `X-CT-Authorization:
+    CTApiV2Auth <public key>:<signature>` and `X-CT-Timestamp: <unix ms>`, where signature =
+    Base64(HMAC-SHA-256(PrivateKey, StringToSign)) and StringToSign = HTTP-Verb + "\n" +
+    Content-MD5 + "\n" + Content-Type + "\n" + Timestamp + "\n" + RequestURI.
+  replay_protection:
+    mechanism: timestamp window
+    window: 15 minutes
+    header: X-CT-Timestamp
+  constraints:
+  - Supported on api[client_id].crowdtwist.com; NOT supported on pos[client_id].crowdtwist.com.
+  - Not supported on the legacy Auth Sign-In and Sign-Out endpoints.
+  - When HMAC is enabled, an API key in the request URL is no longer required.
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/HMACAuthentication.html
+- id: mobile_user_token
+  type: apiKey
+  in: header
+  name: user session token
+  required: false
+  description: >-
+    End-user / mobile authentication. A user is first created via the User Create API, then
+    authenticated against an alternate HMAC-enabled endpoint that returns a user session token
+    and key which must be included in all subsequent calls. Requests to these endpoints must be
+    HMAC signed with the HMAC *user* private key from the client's API configuration.
+  token_lifetime: 6 months
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/MobileAPIAuthentication.html
+- id: api_sig_legacy
+  type: apiKey
+  in: query
+  name: api_sig
+  required: true
+  description: >-
+    Legacy signature parameter on the program-hosted single sign-on endpoints
+    `POST https://<program_url>/http/v2/auth-sign-in` and
+    `GET https://<program_url>/http/v2/auth-sign-out`. These run on the client's own program
+    domain rather than the CrowdTwist API host and are explicitly excluded from HMAC support.
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserAuthenticationSignIn.html
+oauth2: false
+openid_connect: false
+mtls: false
+scopes_published: false
+scopes_note: >-
+  CrowdTwist has no OAuth surface, so there is no scope model to capture; access is scoped by
+  the client program the API key belongs to. scopes/ is deliberately absent for this provider.
+inbound_vs_outbound:
+  note: >-
+    The Data Push (webhook) direction reverses the relationship — CrowdTwist is the CALLER and
+    authenticates to the client's endpoint with HTTP Basic or a client-supplied `x-api-key`
+    header. See asyncapi/crowdtwist-data-push-webhooks.yml.
+key_management:
+  issuance: CrowdTwist account team / CrowdTwist Control Center Dashboard
+  self_service: false
+  rotation_documented: false
+  separate_sandbox_keys: true
+  sandbox_note: Sandbox environments are separate hosts (sb-, sb2-) with their own client configuration.
+transport:
+  tls_minimum: TLSv1.2
+  tls_note: >-
+    Oracle publishes the exact supported cipher suite list on the API Best Practices page and
+    warns that clients on runtimes without TLS 1.2 (e.g. Java 6) cannot connect.
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistAPIBestPractices.html

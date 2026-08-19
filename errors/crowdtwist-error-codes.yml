@@ -1,0 +1,145 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserRedemption.html
+docs:
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserRedemption.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserActivityCredit.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Leaderboard.html
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+format: json
+rfc9457: false
+summary: >-
+  CrowdTwist publishes a per-endpoint error reference rather than one central error registry.
+  Two envelopes are in use — a two-field {error, message} shape on the loyalty API and a
+  four-field {system, reason, description, message} shape on the POS/commerce API — over a
+  shared vocabulary of reason codes. Everything below is transcribed from the Oracle
+  Developer Help Center; nothing is inferred.
+envelopes:
+- id: loyalty
+  applies_to: api{client_id}.crowdtwist.com endpoints
+  fields:
+  - name: error
+    required: true
+    description: Short form of the error.
+  - name: message
+    required: true
+    description: >-
+      Detailed message naming, as specifically as possible, the missing fields or the exact
+      location of the error.
+  example: '{"error": "over_redeem_limit", "message": "User can only redeem 5 of this reward."}'
+- id: commerce
+  applies_to: pos{client_id}.crowdtwist.com endpoints (purchase, fulfillment, return)
+  fields:
+  - name: system
+    required: true
+    description: Domain where the error occurred (e.g. PurchaseController, pos).
+  - name: reason
+    required: true
+    description: Identifier of the error category, so clients can branch on it.
+  - name: description
+    required: true
+    description: Short form description of the error.
+  - name: message
+    required: true
+    description: Detailed message.
+classes:
+- class: Input Error
+  http: 4xx
+  description: >-
+    Returned whenever the request is missing required fields, including a malformed body
+    (unsupported HTTP method, receipt not found, and similar).
+  reasons:
+  - missing_data
+  - not_unique
+  - receipt_not_found
+  - invalid_amount
+  - invalid_currency
+  - invalid_date
+  - invalid_custom_field
+  - invalid
+- class: Server Error
+  http: 5xx
+  description: An error occurred in the CrowdTwist backend.
+  reasons:
+  - code: internal_error
+    meaning: Unexpected error occurred in the CrowdTwist backend.
+  - code: missing_field
+  - code: invalid_data
+  - code: not_configured
+    meaning: The relevant configuration has not been set up yet.
+error_codes:
+- code: page_not_found
+  http: 404
+  message: User does not exist.
+  surface: user-scoped endpoints
+  remediation: Verify the user_id and the id_type pairing; create the member first if needed.
+- code: insufficient_points
+  http: 403
+  message: User does not have enough points to redeem reward.
+  surface: redemption
+- code: access_denied
+  http: 403
+  message: User is not in the right segment to access this reward.
+  surface: redemption
+- code: invalid_reward
+  http: 404
+  message: Reward does not exist, is expired or inactive.
+  surface: redemption
+- code: over_redeem_limit
+  http: 403
+  message: User can only redeem x of this reward.
+  surface: redemption
+- code: sweep_entry_over
+  http: 403
+  message: This sweepstakes is either over or entries are no longer being accepted.
+  surface: redemption
+- code: forbidden
+  http: 403
+  message: >-
+    User does not meet the minimum age requirement, or the redemption exceeds the current
+    quantity of rewards.
+  surface: redemption
+- code: missing_data
+  http: 400
+  system: pos
+  description: Required field is missing.
+  message: 'Required field ["receipt_id"] is missing.'
+  surface: commerce
+- code: invalid
+  http: 400
+  system: pos
+  description: Field value is empty / receipt contains invalid data / unexpected date format.
+  message: 'Value of field ["Receipt Image Id"] must not be empty. — Duplicate receipt_image_id for given client. — Date purchased is in incorrect format.'
+  surface: commerce
+- code: invalid_currency
+  http: 400
+  system: pos
+  description: Invalid currency code.
+  message: 'Invalid currency: ABC. Currency code must be ISO-4217 compliant.'
+  surface: commerce
+- code: currency_not_configured
+  http: 400
+  system: pos
+  description: Currency code not configured for the program in commerce configuration.
+  surface: commerce
+- code: user_not_found
+  http: 400
+  system: pos
+  description: User not found.
+  message: 'User with id [12345] can not be found.'
+  surface: commerce
+- code: input_error
+  message: The input provided is invalid or formatted incorrectly.
+  surface: leaderboard
+- code: param_error
+  message: A missing or invalid parameter is included in the request.
+  surface: leaderboard
+- code: internal_error
+  message: Something went wrong on our end.
+  surface: all
+gaps:
+- No single consolidated error-code reference page; codes are repeated per endpoint and the sets differ.
+- No 429 / rate-limit-exceeded error is documented anywhere, despite a published 10,000 req/min ceiling.
+- No RFC 9457 problem+json representation.
+- HTTP status is not stated for the leaderboard error codes.

@@ -1,0 +1,109 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTP probes, 2026-08-13
+summary: >-
+  Nothing. Every /.well-known/ path was probed on every host CrowdTwist owns or documents and
+  not one returned a document. crowdtwist.com answers 301 to oracle.com for every path (the
+  corporate site was retired into Oracle's acquisitions page after the March 2019 acquisition);
+  api.crowdtwist.com answers a real 404 HTML error page. No WellKnown, SecurityTxt, APICatalog
+  or AgentCard pointer is wired in apis.yml — this file records an absence, not a presence.
+hosts_probed:
+- crowdtwist.com
+- api.crowdtwist.com
+- api201.crowdtwist.com
+probes:
+- host: crowdtwist.com
+  path: /.well-known/security.txt
+  status: 301
+  redirect_to: https://www.oracle.com/corporate/acquisitions/
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/openid-configuration
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/oauth-authorization-server
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/oauth-protected-resource
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/api-catalog
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/ai-plugin.json
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/agent-card.json
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /.well-known/agent.json
+  status: 301
+  file: null
+- host: crowdtwist.com
+  path: /llms.txt
+  status: 301
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+- host: api.crowdtwist.com
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+- host: api201.crowdtwist.com
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+- host: api201.crowdtwist.com
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+- host: api201.crowdtwist.com
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+spec_discovery_probes:
+- url: https://api.crowdtwist.com/openapi.json
+  status: 404
+- url: https://api.crowdtwist.com/
+  status: 404
+- url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/llms.txt
+  status: 302
+hits: 0
+pointers_emitted: []
+pointer_note: >-
+  Per the pipeline rule, a WellKnown pointer asserts the PROVIDER serves that surface. Every path
+  here missed, so no pointer is emitted. The oracle.com parent host was not counted either: it is
+  Oracle's corporate site, not a CrowdTwist API host, and www.oracle.com/.well-known/security.txt
+  itself returned 403 on probe.

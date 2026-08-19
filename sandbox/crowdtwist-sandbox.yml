@@ -1,0 +1,88 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/EndpointURLEnvironments.html
+docs:
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/EndpointURLEnvironments.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistStarterKit.htm
+- https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+model: separate-host sandbox environments provisioned per customer
+self_service: false
+public_playground: false
+summary: >-
+  CrowdTwist ships a real non-production environment, but it is a provisioned tenant rather than
+  a public sandbox: Oracle provisions one Test Environment per program instance as part of the
+  base Cloud Service SKU, reachable on dedicated `sb-` / `sb2-` hosts. There is no anonymous
+  console, no shared demo tenant and no published test credentials — a sandbox key comes from
+  the CrowdTwist account team, the same as a production key.
+environments:
+- name: US Sandbox - Main
+  host_pattern: sb-api{client_id}.crowdtwist.com
+  example: sb-api201.crowdtwist.com
+  kind: sandbox
+- name: US Sandbox - POS
+  host_pattern: sb-pos{client_id}.crowdtwist.com
+  example: sb-pos201.crowdtwist.com
+  kind: sandbox
+- name: Sandbox2 - Main
+  host_pattern: sb2-api{client_id}.crowdtwist.com
+  example: sb2-api201.crowdtwist.com
+  kind: sandbox
+- name: Sandbox2 - POS
+  host_pattern: sb2-pos{client_id}.crowdtwist.com
+  example: sb2-pos201.crowdtwist.com
+  kind: sandbox
+- name: US Production - Main
+  host_pattern: api{client_id}.crowdtwist.com
+  kind: production
+- name: US Production - POS
+  host_pattern: pos{client_id}.crowdtwist.com
+  kind: production
+- name: DE Production - Main
+  host_pattern: de-api{client_id}.crowdtwist.com
+  kind: production
+- name: DE Production - POS
+  host_pattern: de-pos{client_id}.crowdtwist.com
+  kind: production
+- name: US2 - Main
+  host_pattern: us2-api{client_id}.crowdtwist.com
+  kind: production
+- name: US2 - POS
+  host_pattern: us2-pos{client_id}.crowdtwist.com
+  kind: production
+key_model:
+  test_vs_live_prefix: false
+  detail: >-
+    CrowdTwist does not distinguish test from live keys by prefix. The environment is selected by
+    HOST, not by key — an integration points at `sb-api{client_id}` for test and `api{client_id}`
+    for production, with separate client configuration behind each.
+  risk_note: >-
+    Because the key format is identical across environments, a mis-set base URL is the only thing
+    standing between a test run and production member data. Oracle's own Starter Kit environment
+    file therefore recommends starting the `environment` variable with `sb-`.
+entitlement:
+  included: one (1) Test Environment per program instance, provisioned by Oracle
+  additional: 'Oracle CrowdTwist Additional Test Environment Cloud Service, Part #B92523 — Each'
+  restrictions:
+  - Designed for development, training and testing; may not be used for production operations.
+  - May not be used for stress testing.
+  - Certain programs and optional services may not run in the Test Environment.
+  - RTO/RPO and the 99.8% target availability level do NOT apply to non-production environments.
+  source: https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+tooling:
+  postman_starter_kit:
+    published: true
+    url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistStarterKit.htm
+    download: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Resources/CrowdTwistStarterKit.zip
+    artifact: postman/crowdtwist-starter-kit.postman_collection.json
+    guidance: 'Oracle''s documented first test: select the Starter Kit environment and run the Create User call.'
+  test_fixtures: none published
+  test_data_seeding: none published
+  time_simulation: none published
+  data_push_testing: >-
+    The Responsys/SFMC integration docs recommend distinct destination tables per environment
+    (e.g. USER_PROFILE_PROD vs USER_PROFILE_SAND), which implies sandbox Data Push is supported.
+gaps:
+- No public/self-service sandbox — access requires a customer contract and account-team provisioning.
+- No published test values (no magic member IDs, no test receipt IDs, no test card numbers).
+- No test-vs-live key prefix, so environment misconfiguration is not detectable from the credential.

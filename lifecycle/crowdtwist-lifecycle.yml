@@ -1,0 +1,89 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistAPIBestPractices.html
+docs:
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistAPIBestPractices.html
+- https://docs.oracle.com/en/industries/food-beverage/crowdtwist-loyalty-engagement/releases.html
+- https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+status: active
+ownership:
+  original_vendor: CrowdTwist, Inc. (New York, founded 2009)
+  acquired_by: Oracle
+  acquired: '2019-03'
+  product_name: Oracle CrowdTwist Loyalty and Engagement
+  note: >-
+    crowdtwist.com now 301-redirects to oracle.com/corporate/acquisitions/. All developer
+    documentation moved to the Oracle Help Center; the API hosts remain on the
+    *.crowdtwist.com domain.
+versioning:
+  scheme: per-resource path version
+  current:
+  - v2
+  - v2.1
+  - v2.2
+  policy_published: true
+  policy: >-
+    Additive JSON changes are non-breaking and clients must tolerate them. Changing a property
+    type or removing a property is a breaking change and will be approved with the affected
+    clients or result in an API version bump.
+release_cadence:
+  platform_changes: weekly to production (Oracle's stated practice)
+  feature_releases: monthly, published as a dated Release Readiness / Feature Summary guide
+  most_recent_release: '2026-06'
+  changelog: changelog/crowdtwist-changelog.yml
+deprecation:
+  policy_published: false
+  observed_practice: >-
+    Superseded endpoint revisions stay online and are relabelled "(legacy)" in the docs rather
+    than being removed — Rewards, User Rewards, Activities-Extended, User Activity History,
+    User Activity History-Extended, User Points, User Profile and User Redemption History all
+    have a live legacy variant alongside a v2.1/v2.2 successor.
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No sunset dates, no retirement schedule and no Deprecation/Sunset response headers are
+    published, so no canonical `Deprecation` pointer is wired in apis.yml. The "(legacy)"
+    label is a documentation convention, not a policy.
+  legacy_endpoints:
+  - GET /v2/rewards
+  - GET /v2/users/{user_id}/rewards
+  - GET /v2/activities/extended
+  - GET /v2/users/{user_id}/activity_history
+  - GET /v2/users/{user_id}/activity_history/extended
+  - GET /v2/users/{user_id}/points
+  - GET /v2/users/{user_id}
+  - GET /v2.1/users/{user_id}/redemption_history
+  - POST /http/v2/auth-sign-in (legacy auth; excluded from HMAC support)
+  - GET /http/v2/auth-sign-out (legacy auth; excluded from HMAC support)
+sla:
+  published: true
+  source: https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+  effective_date: '2024-09-12'
+  target_service_availability: 99.8%
+  rto: 72 hours
+  rpo: 24 hours
+  scope: production environment only; excludes non-production, customizations and third-party services
+status_page:
+  published: false
+  note: >-
+    No CrowdTwist-specific status page was found. Oracle's public status surfaces
+    (ocistatus.oraclecloud.com) cover OCI infrastructure, not the CrowdTwist SaaS application;
+    CrowdTwist incident communication runs through Oracle Support, which requires a login.
+    No canonical `StatusPage` pointer is wired.
+  probed:
+  - url: https://ocistatus.oraclecloud.com/
+    status: 200
+    verdict: OCI infrastructure status, not CrowdTwist — not counted
+  - url: https://support.oracle.com/
+    status: 200
+    verdict: redirects to /signin — authenticated only
+failover_guidance:
+  published: true
+  detail: >-
+    Oracle publishes an API Failover Strategy telling clients that CrowdTwist downtime surfaces
+    as 5xx responses and that the caller is responsible for handling them gracefully.
+  data_push_retry: >-
+    Outbound Live Data Push retries a failed client endpoint five times an hour for up to eight
+    hours, after which the request is written to an error log that support can export.

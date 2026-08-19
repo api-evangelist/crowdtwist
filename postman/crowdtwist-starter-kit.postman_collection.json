@@ -1,0 +1,1693 @@
+{
+	"info": {
+		"_postman_id": "f270fa07-9e57-4266-b8eb-e43b5c6f60d3",
+		"name": "CrowdTwist Starter Kit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "User Profile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Test for active account, and verified and opted in email\r",
+									"// Documentation for tests: https://learning.postman.com/docs/writing-scripts/script-references/test-examples/\r",
+									"\r",
+									"pm.test(\"ID exists in CrowdTwist\", () => {\r",
+									"//parse the response json and test if ID exists.\r",
+									"const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.id).to.be.a(\"number\");\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Account Is Active\", () => {\r",
+									"    //parse the response json and test three properties\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.is_active).to.eql(true);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Email Is Verified\", () => {\r",
+									"    //parse the response json and test three properties\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.email_is_verified).to.eql(true);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Email Is Opted In\", () => {\r",
+									"    //parse the response json and test three properties\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.receive_email_updates).to.eql(true);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/?id_type={{id_type}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"users",
+								"{{user_id}}",
+								""
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								}
+							]
+						},
+						"description": "## User Profile\n[UserProfile.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserProfile.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description| Returns user profile for a given member.|\n| Method | GET|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/users/[user_id]/?api_key=[api_key]&id_type=[id_type]|\n\n### Log\n- Thu July 1, 2021 working as expected. Added in the test to check if account is active, email is verified, and email is opted in."
+					},
+					"response": [
+						{
+							"name": "User Profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/?id_type={{id_type}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}api{{client_id}}",
+										"crowdtwist",
+										"com"
+									],
+									"path": [
+										"v2",
+										"users",
+										"{{user_id}}",
+										""
+									],
+									"query": [
+										{
+											"key": "id_type",
+											"value": "{{id_type}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 03 Aug 2021 15:34:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "876"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding,User-Agent"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "p3p",
+									"value": "policyref=\"http://www.crowdtwist.com/w3c/p3p.xml\",CP=\"CT \""
+								},
+								{
+									"key": "Expires",
+									"value": "Thu, 08 Jul 1976 20:00:00 GMT"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 261947736,\n    \"first_name\": \"Jacob\",\n    \"middle_name\": null,\n    \"last_name\": \"OracleCrowdTwist\",\n    \"date_of_birth\": null,\n    \"email_address\": \"oraclecrowdtwist@gmail.com\",\n    \"email_is_verified\": true,\n    \"username\": \"oraclecrowdtwist\",\n    \"mobile_phone_number\": \"2098090783\",\n    \"third_party_id\": null,\n    \"is_active\": true,\n    \"gender_id\": null,\n    \"gender\": null,\n    \"extra_data\": null,\n    \"continent\": \"North America\",\n    \"country\": \"United States\",\n    \"us_region\": \"West\",\n    \"ca_province\": null,\n    \"state\": \"CA\",\n    \"city\": \"San Francisco\",\n    \"street_address_1\": null,\n    \"street_address_2\": null,\n    \"postal_code\": \"94111\",\n    \"receive_email_updates\": false,\n    \"date_receive_email_opt_in\": null,\n    \"date_receive_email_opt_out\": null,\n    \"total_points\": 310,\n    \"redeemable_points\": 310,\n    \"num_points_purchased\": 0,\n    \"facebook_access_token\": null,\n    \"facebook_user_id\": null,\n    \"date_fb_token_expires\": null,\n    \"twitter_oauth_token\": null,\n    \"twitter_oauth_token_secret\": null,\n    \"pinterest_access_token\": null,\n    \"pinterest_user_id\": null,\n    \"inst_access_token\": null,\n    \"inst_username\": null,\n    \"inst_user_id\": null,\n    \"activity_stream_opt_in\": true,\n    \"store_id\": null,\n    \"date_last_login\": 1623193474,\n    \"date_last_updated\": 1627934651,\n    \"date_created\": 1623193418,\n    \"rank\": null,\n    \"weekly_rank\": null,\n    \"monthly_rank\": null,\n    \"password\": null,\n    \"salt\": null,\n    \"hash_algorithm_id\": \"5\",\n    \"password_generated\": \"0\",\n    \"lang_pref\": null,\n    \"sign_up_channel_id\": \"2\",\n    \"referral_url\": \"https://www.bowlero.com/mvbrewards-login?_cts_=iuCxccxH\",\n    \"fan_level\": \"Member\",\n    \"tier_info\": {\n        \"timeframe_score\": null,\n        \"tier_score\": null,\n        \"current_level\": {\n            \"title\": \"Member\",\n            \"min_value\": 0,\n            \"max_value\": 100000000,\n            \"image_url\": null\n        },\n        \"next_level\": null,\n        \"levels_above\": [],\n        \"levels_below\": [],\n        \"date_assigned\": null,\n        \"expiration_date\": null,\n        \"reset_date\": null,\n        \"score_needed_to_reach\": null,\n        \"score_needed_to_maintain\": null,\n        \"days_until_expiration_date\": null,\n        \"days_until_reset_date\": null,\n        \"is_maintenance_mode\": null,\n        \"date_reached\": null,\n        \"assigned_by_event\": null\n    },\n    \"segments\": [],\n    \"household_id\": null,\n    \"custom_data\": {\n        \"opt_in_email\": \"true\",\n        \"store_loc\": \"575\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "User Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email_address\": \"{{$randomExampleEmail}}\",\r\n    \"last_name\": \"{{$randomLastName}}\",\r\n    \"first_name\": \"{{$randomFirstName}}\",\r\n    \"mobile_phone_number\": \"{{$randomPhoneNumber}}‬‬\",\r\n    \"postal_code\": \"94111\",\r\n    \"date_of_birth\": 344754000,\r\n    \"email_is_verified\": 1,\r\n    \"send_verify_email\": 1,\r\n    \"sign_up_channel_id\": 2\r\n}"
+						},
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users?",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"users"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						},
+						"description": "## User Create\n[UserCreate.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserCreate.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|To create a user via the CrowdTwist API, you must perform an HTTP POST request with a JSON object.|\n| Method |POST|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/users?api_key=[api_key]|\n\n#### Instructions For Use\n\nRequired fields and regularly used fields are included."
+					},
+					"response": [
+						{
+							"name": "User Create response example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email_address\": \"{{$randomExampleEmail}}\",\r\n  \"last_name\": \"{{$randomLastName}}\",\r\n  \"first_name\": \"{{$randomFirstName}}\",\r\n  \"mobile_phone_number\": \"{{$randomPhoneNumber}}‬‬\",\r\n  \"postal_code\": \"94111\",\r\n  \"date_of_birth\": 344754000,\r\n  \"username\": \"{{$randomUserName}}\",\r\n  \"password\": \"{{$randomPassword}}\",\r\n  \"email_is_verified\": 1,\r\n  \"send_verify_email\": 1,\r\n  \"sign_up_channel_id\": 2\r\n}"
+								},
+								"url": {
+									"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users?",
+									"protocol": "https",
+									"host": [
+										"{{environment}}api{{client_id}}",
+										"crowdtwist",
+										"com"
+									],
+									"path": [
+										"v2",
+										"users"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 01 Sep 2021 23:11:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1088"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "prod_prod_ss_ctjr_2_68=52a19118440b770e13f7a73bfae227e4114436e755d08760886417132cd3cbc9-63a5d45fe0501e6d37145516bd0f1d6d1b91de87; expires=Thu, 01-Sep-2022 23:11:32 GMT; Max-Age=31536000; path=/; domain=.crowdtwist.com; secure; SameSite=None"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "prod_prod_ctjr_2_68=52a19118440b770e13f7a73bfae227e4114436e755d08760886417132cd3cbc9-63a5d45fe0501e6d37145516bd0f1d6d1b91de87; expires=Thu, 01-Sep-2022 23:11:32 GMT; Max-Age=31536000; path=/; domain=.crowdtwist.com; secure"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "prod_prod_ss_cti=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; domain=.crowdtwist.com; secure; SameSite=None"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "prod_prod_cti=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; domain=.crowdtwist.com; secure"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding,User-Agent"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "p3p",
+									"value": "policyref=\"http://www.crowdtwist.com/w3c/p3p.xml\",CP=\"CT \""
+								},
+								{
+									"key": "Expires",
+									"value": "Thu, 08 Jul 1976 20:00:00 GMT"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 269654579,\n    \"first_name\": \"Morris\",\n    \"middle_name\": null,\n    \"last_name\": \"DuBuque\",\n    \"date_of_birth\": 344754000,\n    \"email_address\": \"osvaldo.sauer75@example.net\",\n    \"email_is_verified\": true,\n    \"username\": \"Broderick_Weimann52\",\n    \"mobile_phone_number\": \"7842479094\",\n    \"third_party_id\": null,\n    \"is_active\": true,\n    \"gender_id\": null,\n    \"gender\": null,\n    \"extra_data\": null,\n    \"continent\": \"North America\",\n    \"country\": \"United States\",\n    \"us_region\": \"West\",\n    \"ca_province\": null,\n    \"state\": \"CA\",\n    \"city\": \"San Francisco\",\n    \"street_address_1\": null,\n    \"street_address_2\": null,\n    \"postal_code\": \"94111\",\n    \"receive_email_updates\": true,\n    \"date_receive_email_opt_in\": null,\n    \"date_receive_email_opt_out\": null,\n    \"total_points\": 170,\n    \"redeemable_points\": 170,\n    \"num_points_purchased\": 0,\n    \"facebook_access_token\": null,\n    \"facebook_user_id\": null,\n    \"date_fb_token_expires\": null,\n    \"twitter_oauth_token\": null,\n    \"twitter_oauth_token_secret\": null,\n    \"pinterest_access_token\": null,\n    \"pinterest_user_id\": null,\n    \"inst_access_token\": null,\n    \"inst_username\": null,\n    \"inst_user_id\": null,\n    \"activity_stream_opt_in\": true,\n    \"store_id\": null,\n    \"date_last_login\": null,\n    \"date_last_updated\": 1630537892,\n    \"date_created\": 1630537892,\n    \"rank\": null,\n    \"weekly_rank\": null,\n    \"monthly_rank\": null,\n    \"password\": null,\n    \"salt\": null,\n    \"hash_algorithm_id\": \"4\",\n    \"password_generated\": \"0\",\n    \"lang_pref\": null,\n    \"sign_up_channel_id\": \"2\",\n    \"referral_url\": \"http://demo.crowdtwist.com?_cts_=LjS2tZpG\",\n    \"fan_level\": \"Bronze\",\n    \"tier_info\": {\n        \"timeframe_score\": 0,\n        \"tier_score\": 0,\n        \"current_level\": {\n            \"title\": \"Bronze\",\n            \"min_value\": null,\n            \"max_value\": 999,\n            \"image_url\": \"https://cdn.crowdtwist.com/img/v2/a26914951d3f54ddb46d3ecba156b9c64475bd0e/w/h/0/image.png\"\n        },\n        \"next_level\": {\n            \"title\": \"Silver\",\n            \"min_value\": 1000,\n            \"max_value\": 4999,\n            \"image_url\": \"https://cdn.crowdtwist.com/img/v2/835250e5407a61426551319dda3ecf048789c4e8/w/h/0/image.png\"\n        },\n        \"levels_above\": [\n            {\n                \"title\": \"Silver\",\n                \"min_value\": 1000,\n                \"max_value\": 4999,\n                \"image_url\": \"https://cdn.crowdtwist.com/img/v2/835250e5407a61426551319dda3ecf048789c4e8/w/h/0/image.png\"\n            },\n            {\n                \"title\": \"Gold\",\n                \"min_value\": 5000,\n                \"max_value\": 9999,\n                \"image_url\": \"https://cdn.crowdtwist.com/img/v2/1f2d09d30cb041cac90675f1ab8a6e0d218dcd1d/w/h/0/image.png\"\n            },\n            {\n                \"title\": \"Platinum\",\n                \"min_value\": 10000,\n                \"max_value\": null,\n                \"image_url\": \"https://cdn.crowdtwist.com/img/v2/5efea8381db2431f576a7fb12b3b9d6f18afe405/w/h/0/image.png\"\n            }\n        ],\n        \"levels_below\": [],\n        \"date_assigned\": \"2021-09-01T23:11:32Z\",\n        \"expiration_date\": null,\n        \"reset_date\": null,\n        \"score_needed_to_reach\": 1000,\n        \"score_needed_to_maintain\": null,\n        \"days_until_expiration_date\": null,\n        \"days_until_reset_date\": null,\n        \"is_maintenance_mode\": true,\n        \"date_reached\": \"2021-09-01T23:11:32Z\",\n        \"assigned_by_event\": \"start\"\n    },\n    \"segments\": [],\n    \"household_id\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "User Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receive_email_updates\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}?id_type={{id_type}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"users",
+								"{{user_id}}"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								}
+							]
+						},
+						"description": "## User Update\n[UserUpdate.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserUpdate.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description| Update an existing CrowdTwist user, you must perform an HTTP PUT request with a JSON object.|\n| Method |PUT|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/users/[user_id]?api_key=[api_key]&id_type=[id_type]|\n\n#### Instructions For Use\n\nInclude fields you wish to update."
+					},
+					"response": [
+						{
+							"name": "User Update response example",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"receive_email_updates\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}?id_type={{id_type}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}api{{client_id}}",
+										"crowdtwist",
+										"com"
+									],
+									"path": [
+										"v2",
+										"users",
+										"{{user_id}}"
+									],
+									"query": [
+										{
+											"key": "id_type",
+											"value": "{{id_type}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 01 Sep 2021 23:12:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1074"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding,User-Agent"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "p3p",
+									"value": "policyref=\"http://www.crowdtwist.com/w3c/p3p.xml\",CP=\"CT \""
+								},
+								{
+									"key": "Expires",
+									"value": "Thu, 08 Jul 1976 20:00:00 GMT"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 253780818,\n    \"first_name\": \"Jacob\",\n    \"middle_name\": null,\n    \"last_name\": \"Hasltead\",\n    \"date_of_birth\": null,\n    \"email_address\": \"jacob.halstead@oracle.com\",\n    \"email_is_verified\": true,\n    \"username\": \"jacob.halstead\",\n    \"mobile_phone_number\": null,\n    \"third_party_id\": null,\n    \"is_active\": true,\n    \"gender_id\": \"2\",\n    \"gender\": \"Male\",\n    \"extra_data\": null,\n    \"continent\": \"North America\",\n    \"country\": \"United States\",\n    \"us_region\": \"West\",\n    \"ca_province\": null,\n    \"state\": \"CA\",\n    \"city\": \"San Francisco\",\n    \"street_address_1\": null,\n    \"street_address_2\": null,\n    \"postal_code\": \"94111\",\n    \"receive_email_updates\": true,\n    \"date_receive_email_opt_in\": null,\n    \"date_receive_email_opt_out\": null,\n    \"total_points\": 222624,\n    \"redeemable_points\": 2599,\n    \"num_points_purchased\": 0,\n    \"facebook_access_token\": null,\n    \"facebook_user_id\": null,\n    \"date_fb_token_expires\": null,\n    \"twitter_oauth_token\": null,\n    \"twitter_oauth_token_secret\": null,\n    \"pinterest_access_token\": null,\n    \"pinterest_user_id\": null,\n    \"inst_access_token\": null,\n    \"inst_username\": null,\n    \"inst_user_id\": null,\n    \"activity_stream_opt_in\": true,\n    \"store_id\": null,\n    \"date_last_login\": 1630535953,\n    \"date_last_updated\": 1630537945,\n    \"date_created\": 1616008413,\n    \"rank\": null,\n    \"weekly_rank\": null,\n    \"monthly_rank\": null,\n    \"password\": null,\n    \"salt\": null,\n    \"hash_algorithm_id\": \"4\",\n    \"password_generated\": \"1\",\n    \"lang_pref\": null,\n    \"sign_up_channel_id\": null,\n    \"referral_url\": \"http://demo.crowdtwist.com?_cts_=BfSZ2ZXO\",\n    \"fan_level\": \"Platinum\",\n    \"tier_info\": {\n        \"timeframe_score\": 222624,\n        \"tier_score\": 212624,\n        \"current_level\": {\n            \"title\": \"Platinum\",\n            \"min_value\": 10000,\n            \"max_value\": null,\n            \"image_url\": \"https://cdn.crowdtwist.com/img/v2/5efea8381db2431f576a7fb12b3b9d6f18afe405/w/h/0/image.png\"\n        },\n        \"next_level\": null,\n        \"levels_above\": [],\n        \"levels_below\": [\n            {\n                \"title\": \"Bronze\",\n                \"min_value\": null,\n                \"max_value\": 999,\n                \"image_url\": \"https://cdn.crowdtwist.com/img/v2/a26914951d3f54ddb46d3ecba156b9c64475bd0e/w/h/0/image.png\"\n            },\n            {\n                \"title\": \"Silver\",\n                \"min_value\": 1000,\n                \"max_value\": 4999,\n                \"image_url\": \"https://cdn.crowdtwist.com/img/v2/835250e5407a61426551319dda3ecf048789c4e8/w/h/0/image.png\"\n            },\n            {\n                \"title\": \"Gold\",\n                \"min_value\": 5000,\n                \"max_value\": 9999,\n                \"image_url\": \"https://cdn.crowdtwist.com/img/v2/1f2d09d30cb041cac90675f1ab8a6e0d218dcd1d/w/h/0/image.png\"\n            }\n        ],\n        \"date_assigned\": \"2021-03-30T23:37:27Z\",\n        \"expiration_date\": null,\n        \"reset_date\": null,\n        \"score_needed_to_reach\": null,\n        \"score_needed_to_maintain\": null,\n        \"days_until_expiration_date\": null,\n        \"days_until_reset_date\": null,\n        \"is_maintenance_mode\": true,\n        \"date_reached\": \"2021-03-30T23:37:27Z\",\n        \"assigned_by_event\": \"jump\"\n    },\n    \"segments\": [],\n    \"household_id\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "User Authentication Sign In",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"// Access collection variables and create a concanenated string\r",
+									"var str_1 =\r",
+									"    \"id_type=\" + pm.environment.get(\"id_type\") + \"&redirect=\" + pm.environment.get(\"redirect\") + \"&user_id=\" + pm.environment.get(\"user_id\") + \"&verified=\" + pm.environment.get(\"verified\") + pm.environment.get(\"client_api_key\");\r",
+									"\r",
+									"// Use the CryptoJS\r",
+									"var hash = CryptoJS.MD5(str_1).toString();\r",
+									"\r",
+									"// Set the new collection variable\r",
+									"pm.variables.set(\"api_sig\", hash);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "redirect",
+									"value": "{{redirect}}",
+									"type": "text"
+								},
+								{
+									"key": "id_type",
+									"value": "{{id_type}}",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "{{user_id}}",
+									"type": "text"
+								},
+								{
+									"key": "verified",
+									"value": "{{verified}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{url_of_program}}/http/v2/auth-sign-in?api_sig={{api_sig}}",
+							"protocol": "https",
+							"host": [
+								"{{url_of_program}}"
+							],
+							"path": [
+								"http",
+								"v2",
+								"auth-sign-in"
+							],
+							"query": [
+								{
+									"key": "api_sig",
+									"value": "{{api_sig}}"
+								}
+							]
+						},
+						"description": "## User Authentication Sign In\n[UserAuthenticationSignIn.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserAuthenticationSignIn.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|In order to login a user to your loyalty program, the “auth-sign-in” endpoint can be used.<br>This endpoint will return:<br>1. A URL to redirect the end user to<br>2. Cookies will be set in the urlofprogram.com domain and the user will be redirected to a second URL<br>3. Cookies will be set in the crowdtwist.com domain and the user will be redirected to the final URL|\n| Method |POST|\n|Endpoint|https://[url_of_program]/http/v2/auth-sign-in?api_sig=[api signature]|\n|Content Type|application/x-www-form-urlencoded|\n\n#### Instructions For Use\n\nThis call will add cookies to a browser that will log in an account to a CrowdTwist environment.  Using a CrowdTwist test document that widgets set to the sign out state, invoking this API call will return a re-direct link in Response payload. Open this re-direct link the browser where the test document is open, and refresh the browser. The account will be logged into the CrowdTwist environment, and widgets will pull in relevant loyalty information."
+					},
+					"response": [
+						{
+							"name": "User Authentication Sign In response example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "redirect",
+											"value": "{{redirect}}",
+											"type": "text"
+										},
+										{
+											"key": "id_type",
+											"value": "{{id_type}}",
+											"type": "text"
+										},
+										{
+											"key": "user_id",
+											"value": "{{user_id}}",
+											"type": "text"
+										},
+										{
+											"key": "verified",
+											"value": "{{verified}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{url_of_program}}/http/v2/auth-sign-in?api_sig={{api_sig}}",
+									"protocol": "https",
+									"host": [
+										"{{url_of_program}}"
+									],
+									"path": [
+										"http",
+										"v2",
+										"auth-sign-in"
+									],
+									"query": [
+										{
+											"key": "api_sig",
+											"value": "{{api_sig}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 01 Sep 2021 23:13:30 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "282"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding,User-Agent"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "p3p",
+									"value": "policyref=\"http://www.crowdtwist.com/w3c/p3p.xml\",CP=\"CT \""
+								},
+								{
+									"key": "Expires",
+									"value": "Thu, 08 Jul 1976 20:00:00 GMT"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "frame-ancestors 'self'"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"redirect_url\": \"https://demo.crowdtwist.com/auth-login/54ae3e23d89e64cdc8c8022f502dfe28a3067548ef9dd9d9-39bc3ada9aaec9567ee240be6af0277132c3629f?r=http%3A%2F%2Fwww.crowdtwist.com%2F%3Femail_address%3D%26timestamp%3D1630538010%26user_id%3D253780818%26username%3Djacob.halstead%26verified%3D1%26sig%3D6243b863a8fd31cc4d27d6249e491df8\",\n    \"verified\": \"verified\",\n    \"user_id\": \"253780818\"\n}"
+						}
+					]
+				},
+				{
+					"name": "User Authentication Sign Out",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Access collection variables and create a concanenated string\r",
+									"var str_1 =\r",
+									"    \"redirect=\" + pm.environment.get(\"redirect\") + pm.environment.get(\"client_api_key\");\r",
+									"\r",
+									"// Use the CryptoJS\r",
+									"var hash = CryptoJS.MD5(str_1).toString();\r",
+									"\r",
+									"// Set the new collection variable\r",
+									"pm.variables.set(\"api_sig\", hash);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 302\", function () {\r",
+									"    pm.response.to.have.status(302);\r",
+									"});\r",
+									"pm.test(\"Status code name has string Found\", function () {\r",
+									"    pm.response.to.have.status(\"Found\");\r",
+									"});\r",
+									"pm.test(\"Response time is less than 700ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+									"});\r",
+									"pm.test(\"Header 'Location' is present\", function () {\r",
+									"    pm.response.to.have.header(\"Location\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"maxRedirects": 1,
+						"followRedirects": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "content-type",
+								"value": "message/http",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{url_of_program}}/http/v2/auth-sign-out?redirect={{redirect}}&api_sig={{api_sig}}",
+							"protocol": "https",
+							"host": [
+								"{{url_of_program}}"
+							],
+							"path": [
+								"http",
+								"v2",
+								"auth-sign-out"
+							],
+							"query": [
+								{
+									"key": "redirect",
+									"value": "{{redirect}}"
+								},
+								{
+									"key": "api_sig",
+									"value": "{{api_sig}}"
+								}
+							]
+						},
+						"description": "## User Authentication Sign Out\n[UserAuthenticationSignOut.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserAuthenticationSignOut.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|In order to logout the user currently logged in to your loyalty program, the “auth-sign-out” endpoint can be used. <br>This endpoint will return:<br>1. A URL to redirect the end user to<br>Upon requesting this URL, cookies will be unset in the urlofprogram.com domain and the user will be redirected to a second URL<br>Upon requesting this second URL, cookies will be unset in the crowdtwist.com domain, and the user will be redirected to the final URL|\n| Method |GET|\n|Endpoint|https://[url_of_program]/http/v2/auth-sign-out?redirect=[redirect]&api_sig=[api_sig]|\n\n#### Instructions For Use\nYou should extract the URL from the 'Location' response header, and deliver the end user to it. If using a test document, use the 'Location' link in the a logged browser then refresh the browser tab with logged in widgets. The user will proceed to have all of their CrowdTwist cookies expired, and they will be delivered to the “redirect” URL once the process is complete."
+					},
+					"response": [
+						{
+							"name": "User Authentication Sign Out response example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "content-type",
+										"value": "message/http",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{url_of_program}}/http/v2/auth-sign-out?redirect={{redirect}}&api_sig={{api_sig}}",
+									"protocol": "https",
+									"host": [
+										"{{url_of_program}}"
+									],
+									"path": [
+										"http",
+										"v2",
+										"auth-sign-out"
+									],
+									"query": [
+										{
+											"key": "redirect",
+											"value": "{{redirect}}"
+										},
+										{
+											"key": "api_sig",
+											"value": "{{api_sig}}"
+										}
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 01 Sep 2021 23:13:45 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "Location",
+									"value": "https://demo.crowdtwist.com/auth/logout?r=http%3A%2F%2Fwww.crowdtwist.com%2F"
+								},
+								{
+									"key": "p3p",
+									"value": "policyref=\"http://www.crowdtwist.com/w3c/p3p.xml\",CP=\"CT \""
+								},
+								{
+									"key": "Expires",
+									"value": "Thu, 08 Jul 1976 20:00:00 GMT"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "frame-ancestors 'self'"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Vary",
+									"value": "User-Agent"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "User Activity Credit",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// JSON Body variables:  Activity ID and number of points\r",
+									"pm.variables.set(\"activity_id\", \"replace_with_activity_id\");\r",
+									"pm.variables.set(\"num_points\", \"replace_with_number_of_points\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"activity_id\": \"{{activity_id}}\",\r\n    \"num_points\": {{num_points}}\r\n}"
+						},
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/activities?id_type={{id_type}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"users",
+								"{{user_id}}",
+								"activities"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								}
+							]
+						},
+						"description": "## User Activity Credit\n[UserActivityCredit.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserActivityCredit.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|Attempts to award the user points for the given Activity. Due to frequency capping limits and other factors, points may not actually be awarded if the user is not able to earn them at the time of the request. Also note that Activity awards are queued up; this response indicates that we will process the request to award points, generally within seconds.|\n| Method |POST|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/users/[user_id]/activities?api_key=[api_key]&id_type=[id_type]|\n\n#### Instructions For Use\n\nUse complete an activity and award points. In Pre-request Script tab, update activity_id and num_points with values you wish to use in your environment."
+					},
+					"response": [
+						{
+							"name": "User Activity Credit response example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"activity_id\":\"{{activity_id}}\",\r\n  \"num_points\":{{num_points}},\r\n  \"extra_data\": {\r\n           \"coupon_numbers\":\"123|456|789\"\r\n        }\r\n}"
+								},
+								"url": {
+									"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/activities?id_type={{id_type}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}api{{client_id}}",
+										"crowdtwist",
+										"com"
+									],
+									"path": [
+										"v2",
+										"users",
+										"{{user_id}}",
+										"activities"
+									],
+									"query": [
+										{
+											"key": "id_type",
+											"value": "{{id_type}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 01 Sep 2021 23:14:24 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "Apache"
+								},
+								{
+									"key": "p3p",
+									"value": "policyref=\"http://www.crowdtwist.com/w3c/p3p.xml\",CP=\"CT \""
+								},
+								{
+									"key": "Expires",
+									"value": "Thu, 08 Jul 1976 20:00:00 GMT"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Vary",
+									"value": "User-Agent"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"awarded\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "User Activity History",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2.1/users/{{user_id}}/activity_history?id_type={{id_type}}&date_start={{date_uxix_yesterday}}&date_end={{date_uxix_today}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2.1",
+								"users",
+								"{{user_id}}",
+								"activity_history"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								},
+								{
+									"key": "date_start",
+									"value": "{{date_uxix_yesterday}}"
+								},
+								{
+									"key": "date_end",
+									"value": "{{date_uxix_today}}"
+								}
+							]
+						},
+						"description": "## User Activity History\n[UserActivityHistory21.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserActivityHistory21.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|Returns the list of activities a user has completed.|\n| Method |GET|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2.1/users/[user_id]/activity_history?api_key=[api_key]&id_type=[id_type]&date_start=[timestamp]&date_end=[timestamp]\n|"
+					},
+					"response": []
+				},
+				{
+					"name": "User Activities – Extended",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"page_number\", \"1\"); // Sets starting page number\r",
+									"pm.variables.set(\"page_size\", \"10\"); // Sets number of activities returned in response. Max is 10"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2.1/users/{{user_id}}/activities/extended?id_type={{id_type}}&page={{page_number}}&page_size={{page_size}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2.1",
+								"users",
+								"{{user_id}}",
+								"activities",
+								"extended"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								},
+								{
+									"key": "page",
+									"value": "{{page_number}}"
+								},
+								{
+									"key": "page_size",
+									"value": "{{page_size}}"
+								}
+							]
+						},
+						"description": "## User Activities\n[UserActivities-Extended21.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserActivities-Extended21.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|Returns the details of a specific activity for a user|\n| Method |GET|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2.1/users/[user_id]/activities/extended?api_key=[api_key]&id_type=[id_type]&page=[page_number]&page_size=[page_size]\n|"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Commerce",
+			"item": [
+				{
+					"name": "Purchase",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"client_receipt_id successfully set in collectionVariables\", function () {\r",
+									"var data = JSON.parse(request.data);\r",
+									"var client_receipt_id = data.receipt_id;\r",
+									"pm.collectionVariables.set(\"client_receipt_id\", data.receipt_id);  \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "X-CT-Authorization",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "CTApiKey {{client_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receipt_id\": \"{{$randomPhoneNumberExt}}\",\r\n    \"total\": 100.00,\r\n    \"date_purchased\": \"{{Current_ISO_timestamp}}\",\r\n    \"channel_id\": 2,\r\n    \"currency\": \"USD\",\r\n    \"items\": [\r\n        {\r\n            \"sku\": \"123456789\",\r\n            \"price\": 100.00,\r\n            \"quantity\": 1,\r\n            \"is_awaiting_fulfillment\": true\r\n        }\r\n    ],\r\n    \"user_attributes\": {\r\n        \"email_address\": \"{{user_id}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}pos{{client_id}}.crowdtwist.com/purchase",
+							"protocol": "https",
+							"host": [
+								"{{environment}}pos{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"purchase"
+							]
+						},
+						"description": "## Purchase\n[Purchase.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|The purchase API is used to send purchase data to the CrowdTwist system. To send purchase data, you must perform an HTTP POST request with a JSON object.<br/><br/> The purchase API awards points for purchase.|\n| Method |POST|\n|Endpoint|https://[environment]pos[client_id].crowdtwist.com/purchase|\n|HTTP Header|X-CT-Authorization = CTApiKey [API Key] <br/> Note: there is a space between CTApiKey and the API Key value|"
+					},
+					"response": []
+				},
+				{
+					"name": "Fulfillment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "X-CT-Authorization",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "CTApiKey {{client_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fulfillment_id\": \"{{$randomPhoneNumberExt}}\",\r\n    \"original_receipt_id\": \"{{client_receipt_id}}\",\r\n    \"date_fulfilled\": \"{{Current_ISO_timestamp}}\",\r\n    \"items\": [\r\n        {\r\n            \"sku\": \"123456789\",\r\n            \"quantity\": 1,\r\n            \"is_awaiting_fulfillment\": true\r\n        }\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "https://{{environment}}pos{{client_id}}.crowdtwist.com/fulfillment",
+							"protocol": "https",
+							"host": [
+								"{{environment}}pos{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"fulfillment"
+							]
+						},
+						"description": "## Fulfillment\n[Fulfillment.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Fulfillment.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|The fulfillment API is used at time of purchase fulfillment for items that were not fulfilled at the original time of purchase.|\n| Method |POST|\n|Endpoint|https://[environment]pos[client_id].crowdtwist.com/fulfillment|\n|HTTP Header|X-CT-Authorization = CTApiKey [API Key] <br/> Note: there is a space between CTApiKey and the API Key value|"
+					},
+					"response": []
+				},
+				{
+					"name": "Return",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "X-CT-Authorization",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "CTApiKey {{client_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"return_id\": \"{{$randomPhoneNumberExt}}\",\r\n    \"return_type\": 1,\r\n    \"original_receipt_id\": \"{{client_receipt_id}}\",\r\n    \"date_returned\": \"{{Current_ISO_timestamp}}\",\r\n    \"items\": [\r\n        {\r\n            \"sku\": \"123456789\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "https://{{environment}}pos{{client_id}}.crowdtwist.com/return",
+							"protocol": "https",
+							"host": [
+								"{{environment}}pos{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"return"
+							]
+						},
+						"description": "## Return\n[Return.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Return.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|The Return API is called to request purchase returns to the CrowdTwist system. To request a purchase return, you must perform an HTTP Post request with a JSON object. The Return API deducts points from the member’s account for the item(s) returned.|\n| Method |POST|\n|Endpoint|https://[environment]pos[client_id].crowdtwist.com/return|\n|HTTP Header|X-CT-Authorization = CTApiKey [API Key] <br/> Note: there is a space between CTApiKey and the API Key value|"
+					},
+					"response": []
+				},
+				{
+					"name": "Usable Coupons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/usable_coupons?id_type={{id_type}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"users",
+								"{{user_id}}",
+								"usable_coupons"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								}
+							]
+						},
+						"description": "## Usable Coupons\n[UsableCoupons.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UsableCoupons.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description| This document describes the Usable Coupons endpoint in the REST v2 Users API. This endpoint returns a list of reward coupons which are available for use by a given program member. A coupon is considered usable if it has been assigned to the user through reward redemption, it has not yet itself been redeemed, and its expiration date (if it has one) has not yet passed. The correct operation of this endpoint depends on the client providing us with the information that a given coupon has been used. Currently this is only possible via the Commerce Purchase API. If we are not told that a coupon has been used, it will continue to show as usable even when it has already been used.|\n| Method |GET|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/users/[userId]/usable_coupons?api_key=[api_key]&id_type=[id_type]|\n\n#### Instructions For Use\n\nNo special instructions for use."
+					},
+					"response": []
+				},
+				{
+					"name": "Use Coupon",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"coupon_value\", \"replace_with_available_coupon\"); //Sets coupon value"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"coupon_value\": \"{{coupon_value}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/coupon/use",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"coupon",
+								"use"
+							]
+						},
+						"description": "## Use Coupon\n[UseCoupon.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UseCoupon.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|This API endpoint allows clients to mark a coupon as “used”. This is particularly helpful for something like a manufacturer’s coupon.|\n| Method |POST|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/coupon/use?api_key=[api_key]|\n\n#### Instructions For Use\n\nOn the Pre-request Script tab, update coupon_value with an available coupon code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Redemption",
+			"item": [
+				{
+					"name": "User Redemption",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"reward_id\", \"replace_with_reward_id\");// This sets the reward ID ID for this request"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reward_id\": \"{{reward_id}}\",\r\n    \"quantity\": 1\r\n}"
+						},
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/redemption?id_type={{id_type}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2",
+								"users",
+								"{{user_id}}",
+								"redemption"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								}
+							]
+						},
+						"description": "## User Redemption\n[UserRedemption.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserRedemption.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|Redeems a reward for a user.|\n| Method |POST|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2/users/[user_id]/redemption?api_key=[api_key]&id_type=[id_type]|"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rewards",
+			"item": [
+				{
+					"name": "User Rewards",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"page_number\", \"1\"); // Sets starting page number\r",
+									"pm.variables.set(\"page_size\", \"10\"); // Sets number of activities returned in response. Max is 10"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{environment}}api{{client_id}}.crowdtwist.com/v2.1/users/{{user_id}}/rewards?id_type={{id_type}}&page={{page_number}}&page_size={{page_size}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}api{{client_id}}",
+								"crowdtwist",
+								"com"
+							],
+							"path": [
+								"v2.1",
+								"users",
+								"{{user_id}}",
+								"rewards"
+							],
+							"query": [
+								{
+									"key": "id_type",
+									"value": "{{id_type}}"
+								},
+								{
+									"key": "page",
+									"value": "{{page_number}}"
+								},
+								{
+									"key": "page_size",
+									"value": "{{page_size}}"
+								}
+							]
+						},
+						"description": "## User Rewards\n[UserRewards21.html](https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserRewards21.html)\n\n| Item| Value|\n| ----------- | ----------- |\n| Description|Returns the list of active rewards available to a specific user. v2.1 of the User Rewards API also has the ability to paginate the response|\n| Method |api_type|\n|Endpoint|https://[environment]api[client_id].crowdtwist.com/v2.1/users/[user_id]/rewards?api_key=[api_key]&id_type=[id_type]|"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{client_api_key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "api_key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var moment = require('moment');",
+					"pm.collectionVariables.set(\"date_uxix_today\", moment().unix()); // Today's date",
+					"pm.collectionVariables.set(\"date_uxix_yesterday\", moment().subtract(1, 'days').unix()); // Yesterday's date",
+					"pm.collectionVariables.set(\"date_uxix_15_days_ago\", moment().subtract(15, 'days').unix()); // Date 15 days ago",
+					"pm.collectionVariables.set(\"date_uxix_30_days_ago\", moment().subtract(30, 'days').unix()); // Date 30 days ago",
+					"pm.collectionVariables.set(\"date_uxix_1_year_ago\", moment().subtract(365, 'days').unix()); // Date 1 year ago",
+					"pm.collectionVariables.set(\"date_YYYY-MM-DD_today\", moment().format(\"YYYY-MM-DD\")); // Today's date as YYYY-MM-DD",
+					"pm.collectionVariables.set(\"date_YYYY-MM-DD_yesterday\", moment().subtract(1, 'days').format(\"YYYY-MM-DD\")); // Yesterday's date",
+					"pm.collectionVariables.set(\"date_YYYY-MM-DD_15_days_ago\", moment().subtract(15, 'days').format(\"YYYY-MM-DD\")); // Date 15 days ago",
+					"pm.collectionVariables.set(\"date_YYYY-MM-DD_30_days_ago\", moment().subtract(30, 'days').format(\"YYYY-MM-DD\")); // Date 30 days ago",
+					"pm.collectionVariables.set(\"date_YYYY-MM-DD_1_year_ago\", moment().subtract(365, 'days').format(\"YYYY-MM-DD\")); // Date 1 year ago",
+					"//pm.collectionVariables.set(\"Current_ISO_timestamp\", moment().format(\"YYYY-MM-DDTHH:MM:SSZ\"));",
+					"pm.collectionVariables.set(\"Current_ISO_timestamp\", moment().format(\"YYYY-MM-DDTHH:MMZ\"));",
+					"pm.collectionVariables.set(\"Current_UNIX_timestamp_with_milliseconds\", moment().valueOf());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Start of simple tests",
+					"",
+					"pm.test(\"Response Status is OK or Found\", () => {",
+					"  pm.expect(pm.response.status)",
+					"    .to.be.oneOf([\"OK\", \"Found\"]);",
+					"});",
+					"pm.test(\"Response time is less than 700ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(700);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "date_uxix_today",
+			"value": ""
+		},
+		{
+			"key": "date_uxix_yesterday",
+			"value": ""
+		},
+		{
+			"key": "date_uxix_15_days_ago",
+			"value": ""
+		},
+		{
+			"key": "date_uxix_30_days_ago",
+			"value": ""
+		},
+		{
+			"key": "date_uxix_1_year_ago",
+			"value": ""
+		},
+		{
+			"key": "date_YYYY-MM-DD_today",
+			"value": ""
+		},
+		{
+			"key": "date_YYYY-MM-DD_yesterday",
+			"value": ""
+		},
+		{
+			"key": "date_YYYY-MM-DD_15_days_ago",
+			"value": ""
+		},
+		{
+			"key": "date_YYYY-MM-DD_30_days_ago",
+			"value": ""
+		},
+		{
+			"key": "date_YYYY-MM-DD_1_year_ago",
+			"value": ""
+		},
+		{
+			"key": "Current_ISO_timestamp",
+			"value": ""
+		},
+		{
+			"key": "Current_UNIX_timestamp_with_milliseconds",
+			"value": ""
+		},
+		{
+			"key": "client_receipt_id",
+			"value": ""
+		}
+	]
+}

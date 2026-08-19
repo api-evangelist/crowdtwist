@@ -1,0 +1,42 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  Search of the Oracle CrowdTwist Developer Help Center, oracle.com, the npm/PyPI registries and
+  the public MCP server listings on 2026-08-13. No MCP server for CrowdTwist exists.
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+summary: >-
+  Oracle ships no MCP server for CrowdTwist — no hosted remote endpoint, no stdio package, no
+  reference implementation. Nothing was probed as an MCP endpoint because no candidate URL is
+  published, and guessing one would be worse than recording the absence.
+searches:
+- surface: Oracle CrowdTwist Developer Help Center
+  url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/
+  result: no MCP, agent or tool-server content of any kind
+- surface: npm registry
+  query: crowdtwist
+  result: 0 packages
+- surface: PyPI
+  query: crowdtwist
+  result: 404
+- surface: GitHub organizations
+  url: https://api.github.com/orgs/crowdtwist
+  result: 404 — no organization
+tools: []
+tools_note: >-
+  No candidate tool list is derived here. There is no OpenAPI to bind tools to, and a candidate
+  list built from prose documentation would carry no input schemas — it would look like an agent
+  surface without being one.
+pointer_note: >-
+  No `MCPServer` pointer is wired in apis.yml. The pointer asserts the provider ships a server;
+  Oracle does not.
+what_would_change_this:
+- Oracle publishing an MCP server for CrowdTwist or for Oracle CX Marketing generally.
+- An OpenAPI for the CrowdTwist REST API, which would make a derived candidate tool set meaningful.

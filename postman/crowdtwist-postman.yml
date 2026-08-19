@@ -1,0 +1,108 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistStarterKit.htm
+name: Oracle CrowdTwist Starter Kit Postman Collection
+description: >-
+  Oracle publishes a first-party Postman collection ("CrowdTwist Starter Kit") for the
+  CrowdTwist Loyalty and Engagement REST API as a downloadable ZIP from the CrowdTwist
+  Developer Help Center. It is the only machine-readable contract Oracle publishes for
+  this API — there is no OpenAPI, Swagger, GraphQL or AsyncAPI document anywhere on the
+  crowdtwist.com or docs.oracle.com surface (see well-known/crowdtwist-well-known.yml
+  and the probe log below). Both files are saved here verbatim, exactly as they were
+  extracted from Oracle's ZIP.
+distribution:
+  download_url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Resources/CrowdTwistStarterKit.zip
+  download_http_status: 200
+  content_type: application/zip
+  bytes: 9970
+  fetched: '2026-08-13'
+  public: true
+  auth_required: false
+collection:
+  file: postman/crowdtwist-starter-kit.postman_collection.json
+  name: CrowdTwist Starter Kit
+  schema: https://schema.getpostman.com/json/collection/v2.1.0/collection.json
+  postman_id: f270fa07-9e57-4266-b8eb-e43b5c6f60d3
+  exported_by: Postman/9.0.2
+  exported_at: '2021-09-17'
+  documented_last_updated: '2021-10-19'
+  request_count: 14
+  folders:
+  - name: User Management
+    requests:
+    - method: GET
+      name: User Profile
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/?id_type={{id_type}}
+    - method: POST
+      name: User Create
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users
+    - method: PUT
+      name: User Update
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}?id_type={{id_type}}
+    - method: POST
+      name: User Authentication Sign In
+      url: https://{{url_of_program}}/http/v2/auth-sign-in?api_sig={{api_sig}}
+    - method: GET
+      name: User Authentication Sign Out
+      url: https://{{url_of_program}}/http/v2/auth-sign-out?redirect={{redirect}}&api_sig={{api_sig}}
+  - name: Activities
+    requests:
+    - method: POST
+      name: User Activity Credit
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/activities?id_type={{id_type}}
+    - method: GET
+      name: User Activity History
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2.1/users/{{user_id}}/activity_history
+    - method: GET
+      name: User Activities – Extended
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2.1/users/{{user_id}}/activities/extended
+  - name: Commerce
+    requests:
+    - method: POST
+      name: Purchase
+      url: https://{{environment}}pos{{client_id}}.crowdtwist.com/purchase
+    - method: POST
+      name: Fulfillment
+      url: https://{{environment}}pos{{client_id}}.crowdtwist.com/fulfillment
+    - method: POST
+      name: Return
+      url: https://{{environment}}pos{{client_id}}.crowdtwist.com/return
+    - method: GET
+      name: Usable Coupons
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/usable_coupons?id_type={{id_type}}
+    - method: POST
+      name: Use Coupon
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/coupon/use
+  - name: Redemption
+    requests:
+    - method: POST
+      name: User Redemption
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2/users/{{user_id}}/redemption?id_type={{id_type}}
+  - name: Rewards
+    requests:
+    - method: GET
+      name: User Rewards
+      url: https://{{environment}}api{{client_id}}.crowdtwist.com/v2.1/users/{{user_id}}/rewards?id_type={{id_type}}
+environment:
+  file: postman/crowdtwist-starter-kit.postman_environment.json
+  name: Starter Kit Environment
+  variables:
+  - environment
+  - client_id
+  - client_api_key
+  - user_id
+  - id_type
+  - url_of_program
+  - redirect
+  - verified
+  note: >-
+    Every value in Oracle's published environment file is a prose instruction ("get from
+    your CrowdTwist Account Manager"), not a credential. No secrets are present in either file.
+currency:
+  last_updated: '2021-10-19'
+  age_note: >-
+    Oracle's own Starter Kit page states the collection was last updated 2021-10-19. The
+    platform has shipped monthly releases continuously since (see changelog/), so the
+    collection covers 14 of the ~36 REST operations documented in the Developer Help
+    Center and does not include badges, leaderboard, points expiration, redemption
+    history v2.2, user delete or the v2.1 rewards/activities catalogs.

@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  Registry searches against registry.npmjs.org, pypi.org, rubygems.org, packagist.org,
+  api.nuget.org and the GitHub API on 2026-08-13, plus the Oracle CrowdTwist Developer Help
+  Center SDK/tooling pages.
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+package_count: 0
+official_sdk_count: 0
+summary: >-
+  Oracle publishes no client library for the CrowdTwist API in any language, and no third party
+  has published one either. Every registry search returned zero CrowdTwist packages. The only
+  first-party integration tooling Oracle ships is the Postman Starter Kit collection, which is
+  captured under postman/ rather than here because it is a request collection, not a package.
+packages: []
+registry_searches:
+- registry: npm
+  endpoint: https://registry.npmjs.org/-/v1/search?text=crowdtwist
+  query: crowdtwist
+  results: 0
+  checked: '2026-08-13'
+- registry: pypi
+  endpoint: https://pypi.org/pypi/crowdtwist/json
+  results: 0
+  http_status: 404
+  checked: '2026-08-13'
+- registry: rubygems
+  endpoint: https://rubygems.org/api/v1/search.json?query=crowdtwist
+  results: 0
+  checked: '2026-08-13'
+- registry: packagist
+  endpoint: https://packagist.org/search.json?q=crowdtwist
+  results: 0
+  note: One unrelated result (nwpointer/crowdtilt, a Crowdtilt wrapper) — not CrowdTwist.
+  checked: '2026-08-13'
+- registry: nuget
+  endpoint: https://azuresearch-usnc.nuget.org/query?q=crowdtwist
+  results: 0
+  checked: '2026-08-13'
+source_repositories:
+  github_org: null
+  github_org_probe:
+    url: https://api.github.com/orgs/crowdtwist
+    status: 404
+  note: >-
+    There is no crowdtwist GitHub organization. A repository search returns only unrelated
+    personal repos (student exercises and demo projects, newest first-party-looking activity in
+    2021) and this profile repo itself. Nothing first-party.
+first_party_client_tooling:
+- name: CrowdTwist Starter Kit (Postman collection)
+  kind: postman-collection
+  official: true
+  registry: none
+  version: null
+  published: '2021-10-19'
+  url: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Resources/CrowdTwistStarterKit.zip
+  artifact: postman/crowdtwist-starter-kit.postman_collection.json
+  note: >-
+    Not a package — no registry, no semantic version. The distribution is an unversioned ZIP at a
+    fixed URL, so a consumer cannot tell from the URL which revision they have; the collection's
+    own export metadata dates it 2021-09-17 and Oracle's page states 2021-10-19.
+pointer_note: >-
+  No `SDKs` pointer is wired in apis.yml. sdk_count reads that pointer and there are zero SDKs;
+  emitting it would credit CrowdTwist with client libraries that do not exist.

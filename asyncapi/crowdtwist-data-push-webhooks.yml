@@ -1,0 +1,169 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/DataPush.html
+docs:
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/DataPush.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushUserActivity.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushUserRedemption.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/PushUserProfile-withTiersv2.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushPointsExpiration.htm
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushUserSegmentation.htm
+api: Oracle CrowdTwist Loyalty and Engagement — Data Push
+asyncapi_spec_published: false
+asyncapi_note: >-
+  Oracle publishes no AsyncAPI (or CloudEvents) document for this event surface. What follows is
+  the webhook catalog transcribed from the Data Push documentation — nothing is generated.
+summary: >-
+  CrowdTwist pushes loyalty events outbound. "Live Data Push" POSTs JSON to a client-provided
+  HTTPS endpoint in near real time; "Batch Data Push" writes a daily zipped CSV to SFTP. Feeds
+  are enabled per client by the CrowdTwist support team — there is no self-service subscription
+  API, no signing secret and no replay/verification endpoint.
+delivery:
+  transport: HTTPS POST (live) / SFTP zipped CSV (batch)
+  content_type: application/json
+  endpoint: client-provided, must begin with https://
+  subscription_management: support-configured only; no public subscription API
+  signature_verification: false
+  signature_note: >-
+    CrowdTwist does not sign outbound payloads. Authentication runs the other way — the client
+    gives CrowdTwist a credential to present.
+  authentication_options:
+  - type: http-basic
+    detail: Client-provided username:password, Base64 encoded.
+    required: false
+  - type: api-key-header
+    header: x-api-key
+    detail: Client-provided API key for access to the client's own endpoint.
+    required: false
+  retry:
+    policy: five attempts per hour for up to eight hours
+    on_exhaustion: request is written to an error log; support can export failed requests
+    dead_letter_self_service: false
+  ordering_guarantee: not documented
+  at_least_once: implied by the retry policy; not stated
+events:
+- id: user_profile
+  name: User Profile
+  live: true
+  batch: true
+  description: Creations of new member profiles and updates to existing ones; includes Tiers v2 data.
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/PushUserProfile-withTiersv2.html
+  batch_doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/BatchUserProfile.html
+  batch_file: 2_<client_id>_PROFILE_YYYYMMDD.zip containing 2_<client_id>_USER_PROFILE_YYYYMMDD.csv
+  notable: >-
+    Optional third-party-ID synchronisation — CrowdTwist will read a `third_party_id` back out
+    of the client endpoint's response and store it on the member. Oracle notes this option is
+    only available when no authentication is configured on the client endpoint.
+- id: user_activity
+  name: User Activity
+  live: true
+  batch: true
+  description: Activity completions, with points earned (negative for reward redemptions).
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushUserActivity.html
+  batch_doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/BatchUserActivity.html
+  batch_file: 2_<client_id>_USER_ACTIVITY_YYYYMMDD.zip
+  key_fields:
+  - userActivityId
+  - activityId
+  - activityName
+  - points
+  - notes
+  - translatedTitle
+  - translatedDescription
+  multilanguage: >-
+    translatedTitle/translatedDescription are null unless the member has a language preference
+    and translations are loaded for the activity.
+- id: user_redemption
+  name: User Redemption
+  live: true
+  batch: true
+  description: Reward redemption events.
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushUserRedemption.html
+  batch_doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/BatchUserRedemption.html
+  batch_file: 2_<client_id>_USER_REDEMPTION_YYYYMMDD.zip
+  key_fields:
+  - orderId
+  - orderDate
+  - rewardId
+  - rewardGroupId
+- id: points_expiration
+  name: Points Expiration
+  live: true
+  batch: true
+  description: >-
+    Point expiration details for a member, sent every time they change. Live payload covers one
+    trailing month, the current month and five forward months where expiring points exist.
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushPointsExpiration.htm
+  batch_doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/BatchPushPointsExpiration.htm
+  batch_file: 2_<client_id>_POINTS_EXPIRATION_YYYYMMDD.zip
+  key_fields:
+  - user_id
+  - email_address
+  - third_party_id
+  - message_date
+  - last_qualified_date
+  - expiration_date
+- id: user_segmentation
+  name: User Segmentation
+  live: true
+  batch: false
+  description: Fired whenever a member enters or exits a segment or segment group.
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/LivePushUserSegmentation.htm
+  key_fields:
+  - user_id
+  - email_address
+  - third_party_id
+  - type
+  - name
+  - subscription_id
+  - event
+  - trigger
+  - date_occurred
+  enum:
+    type:
+    - segment
+    - group
+    event:
+    - entered
+    - exited
+    trigger:
+    - segment criteria
+    - segment disabled
+  sample: |
+    {
+      "user_id": 10,
+      "email_address": "joe@example.com",
+      "third_party_id": "user-123",
+      "type": "segment",
+      "name": "Users in New York",
+      "subscription_id": 200,
+      "event": "entered",
+      "trigger": "segment criteria",
+      "date_occurred": "2022-07-27T18:29:18Z"
+    }
+prebuilt_destinations:
+- id: oracle_responsys
+  name: Oracle Responsys Data Push
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/ResponsysDataPush.html
+  feeds:
+  - user_profile
+  - user_activity
+  - user_redemption
+  - points_expiration
+  auth: access token (server-to-server)
+  throughput: throttled to 1 call/second, up to 200 records per call
+  requires: the client's own Responsys instance
+- id: salesforce_marketing_cloud
+  name: Salesforce Marketing Cloud / ExactTarget Data Push
+  doc: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/SFMCDataPush.html
+  feeds:
+  - user_profile
+  - user_activity
+  - user_redemption
+  auth: OAuth 2.0 client credentials against the client's SFMC instance
+  requires: the client's own SFMC/ET instance
+gaps:
+- No AsyncAPI, CloudEvents or JSON Schema document for any payload.
+- No outbound payload signing — a receiving endpoint cannot verify the sender cryptographically.
+- No self-service webhook subscription, test-fire or replay tooling; everything is support-configured.
+- No event catalog endpoint; the five feeds are fixed.

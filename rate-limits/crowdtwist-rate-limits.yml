@@ -1,0 +1,56 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+docs:
+- https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistAPIBestPractices.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/ResponsysDataPush.html
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+limit_count: 2
+summary: >-
+  CrowdTwist publishes a hard API request ceiling — but in its contract document, not in its
+  developer documentation. The Oracle CrowdTwist Cloud Service Service Descriptions states a
+  maximum of 10,000 API requests per minute per program instance, as a Usage Limit alongside the
+  Active Member count. The Developer Help Center never mentions it, never names a 429, and
+  documents no rate-limit response headers at all, so an agent has the number but no runtime
+  signal to back off on.
+limits:
+- id: api_requests_per_minute
+  scope: per program instance
+  limit: 10000
+  window: 1 minute
+  burst: not documented
+  applies_to: Oracle CrowdTwist Cloud Service and each Additional Program Instance
+  source: https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+  source_type: contract / service description PDF (effective 2024-09-12)
+  documented_in_developer_docs: false
+- id: responsys_data_push_throughput
+  scope: outbound Data Push to Oracle Responsys
+  limit: 1
+  window: 1 second
+  batch_size: up to 200 records per call
+  direction: outbound (CrowdTwist -> Responsys)
+  applies_to: Oracle Responsys Data Push integration
+  source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/ResponsysDataPush.html
+response_signaling:
+  headers: []
+  ratelimit_header: false
+  x_ratelimit_header: false
+  retry_after: false
+  exhaustion_status_code: not documented
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented on any CrowdTwist endpoint,
+    and no 429 appears in any published error table (see errors/crowdtwist-error-codes.yml). The
+    only runtime guidance Oracle gives is its API Failover Strategy, which tells clients to handle
+    5xx gracefully — the failure mode a caller would actually observe on overload.
+adjacent_ceilings:
+  note: These are payload/entity ceilings rather than request rates, recorded for completeness.
+  page_size_max_default: 25
+  page_size_max_user_rewards: 10
+  code_redemption_campaign_codes: 100000000
+  product_catalog_products: 5000000
+  data_push_retry: 5 attempts per hour for up to 8 hours
+gaps:
+- The published limit lives in a contract PDF, not the developer documentation.
+- No rate-limit response headers, so a client cannot see how close it is to the ceiling.
+- No documented status code or error body for exhaustion.

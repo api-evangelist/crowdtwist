@@ -1,0 +1,120 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+docs:
+- https://www.oracle.com/contracts/docs/corporate_crowdtwist_cloud_service_descriptions_090320.pdf
+- https://www.oracle.com/industries/customer-loyalty/
+- https://www.oracle.com/food-beverage/loyalty-engagement/
+api: Oracle CrowdTwist Loyalty and Engagement
+pricing_model: enterprise subscription, quoted per order — no published prices
+public_price_list: false
+self_serve_signup: false
+free_tier: false
+trial: false
+plan_count: 5
+summary: >-
+  Oracle publishes no price for CrowdTwist anywhere public: there is no pricing page, no
+  self-service sign-up and no rate card. What Oracle DOES publish is the Cloud Service Service
+  Descriptions document, which names every purchasable SKU, its part number, its billing metric
+  and the usage limits attached to it. The tiers below are transcribed from that document
+  (effective 2024-09-12). Every `price` is null because Oracle states none.
+plans:
+- name: Oracle CrowdTwist Cloud Service
+  part_number: B92522
+  price: null
+  currency: null
+  billing_metric: per 1,000 Active Members
+  billing_period: subscription term per order
+  base: true
+  included_modules:
+  - Member Care
+  - Widgets
+  - Tiering
+  - Point Expiration
+  - Commerce
+  - Product Catalog
+  - Administrative Users
+  - Activities
+  - Bonus Point Campaigns
+  - Rewards
+  - Automatic Rewards
+  - Segmentation
+  - Reporting and Data Export
+  - Language Configuration
+  - Developer API
+  limits:
+    active_members: as set forth in the order, in increments of 1,000
+    program_instances: 1 provisioned
+    test_environments: 1 per program instance
+    code_redemption_campaign_codes: 100,000,000 per campaign
+    product_catalog_products: 5,000,000
+    api_requests_per_minute: 10000
+  sla:
+    target_service_availability: 99.8%
+    rto: 72 hours
+    rpo: 24 hours
+  previous_sku: 'CrowdTwist Cloud Service – 1,000 Active Members (Part # B92553)'
+- name: Oracle CrowdTwist Additional Test Environment Cloud Service
+  part_number: B92523
+  price: null
+  currency: null
+  billing_metric: Each
+  add_on: true
+  requires: Oracle CrowdTwist Cloud Service
+  limits:
+    test_environments: 1 additional
+  previous_sku: 'CrowdTwist Additional Test Environment – Each (Part # B92554)'
+- name: Oracle CrowdTwist Receipt Scanning Cloud Service
+  part_number: B92524
+  price: null
+  currency: null
+  billing_metric: per 10,000 Receipt Scans
+  add_on: true
+  requires: Oracle CrowdTwist Cloud Service
+  description: Allows Active Members to upload receipt images with their qualifying purchases.
+  overage: >-
+    Additional Receipt Scans must be purchased in increments of 10,000 when the ordered maximum
+    is exceeded. Unused scans do not roll over into the next contract term.
+  sla:
+    target_service_availability: 99.8%
+    rto: 72 hours
+    rpo: 24 hours
+  previous_sku: 'CrowdTwist Receipt Scanning – 10,000 Receipt Scans (Part # B92555)'
+- name: Oracle CrowdTwist Additional Program Instance Cloud Service
+  part_number: B92606
+  price: null
+  currency: null
+  billing_metric: Each
+  add_on: true
+  requires: Oracle CrowdTwist Cloud Service
+  limits:
+    active_members: aggregated in increments of 1,000 across all program instances
+    test_environments: 1 per program instance
+    code_redemption_campaign_codes: 100,000,000 per campaign
+    product_catalog_products: 5,000,000
+    api_requests_per_minute: 10000
+  sla:
+    target_service_availability: 99.8%
+    rto: 72 hours
+    rpo: 24 hours
+  previous_sku: 'CrowdTwist Cloud Service Additional Program Instance – Each (Part # B92603)'
+- name: Oracle CrowdTwist Advanced Reporting Cloud Service
+  part_number: null
+  price: null
+  currency: null
+  billing_metric: Core of Analytics Compute Capacity
+  add_on: true
+  requires: Oracle CrowdTwist Cloud Service
+  note: Listed in the Service Descriptions with "(name pending)".
+retired_skus:
+- name: Oracle CrowdTwist Website Hosting Cloud Service
+  billing_metric: Each
+  status: retired
+how_to_buy:
+  route: Oracle sales / partner channel
+  contact_page: https://www.oracle.com/industries/customer-loyalty/
+  self_service: false
+note: >-
+  method is `searched`, not `probed` — there is no machine-readable pricing or catalog endpoint
+  for this product. The billing metrics and usage limits above come from a public PDF contract
+  document, which is the only place Oracle states them.

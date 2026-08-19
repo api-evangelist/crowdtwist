@@ -1,0 +1,159 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistAPIBestPractices.html
+docs:
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/GettingStarted.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/CrowdTwistAPIBestPractices.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/EndpointURLEnvironments.html
+- https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/UserFormattingRules.html
+api: Oracle CrowdTwist Loyalty and Engagement REST API
+style: REST/JSON
+media_type: application/json
+auth:
+  style: api-key
+  detail: see authentication/crowdtwist-authentication.yml
+hosts:
+  pattern_main: https://{environment}api{client_id}.crowdtwist.com
+  pattern_pos: https://{environment}pos{client_id}.crowdtwist.com
+  note: >-
+    Every CrowdTwist API host is templated on the client. `{client_id}` is the CrowdTwist-issued
+    numeric client identifier (Oracle's own example is 201) and `{environment}` is an empty
+    string for US production or one of the documented environment prefixes.
+  environments:
+  - name: US Production - Main
+    host: api{client_id}.crowdtwist.com
+  - name: US Production - POS
+    host: pos{client_id}.crowdtwist.com
+  - name: US Sandbox - Main
+    host: sb-api{client_id}.crowdtwist.com
+  - name: US Sandbox - POS
+    host: sb-pos{client_id}.crowdtwist.com
+  - name: Sandbox2 - Main
+    host: sb2-api{client_id}.crowdtwist.com
+  - name: Sandbox2 - POS
+    host: sb2-pos{client_id}.crowdtwist.com
+  - name: DE Production - Main
+    host: de-api{client_id}.crowdtwist.com
+  - name: DE Production - POS
+    host: de-pos{client_id}.crowdtwist.com
+  - name: US2 - Main
+    host: us2-api{client_id}.crowdtwist.com
+  - name: US2 - POS
+    host: us2-pos{client_id}.crowdtwist.com
+versioning:
+  style: path
+  versions_in_use:
+  - v2
+  - v2.1
+  - v2.2
+  detail: >-
+    The version segment is per-resource, not global — `/v2/users`, `/v2.1/rewards`,
+    `/v2.2/users/{user_id}/redemption_history` are all current at the same time, and the
+    superseded revision of each stays online and is labelled "(legacy)" in the docs.
+  breaking_change_policy: >-
+    Oracle states that adding properties to existing JSON objects is NOT a breaking change and
+    that clients must tolerate unknown properties. Changing a property's data type or removing
+    a property IS a breaking change and will "either be approved by clients using the API or
+    result in an API version bump."
+  release_cadence: >-
+    Oracle states changes are typically released to production on a weekly basis; customer-facing
+    feature releases are published monthly (see changelog/crowdtwist-changelog.yml).
+  client_guidance:
+  - Check for the existence of a JSON property before use, and validate its type.
+  - Do not validate the total number of properties on a JSON object.
+  - Do not assert on JSON properties the integration does not consume.
+pagination:
+  style: page-number
+  params:
+    page: 1-based page number; if omitted the first page is returned
+    page_size: page size
+  max_page_size:
+    default_catalog: 25
+    rewards_catalog: 25
+    user_rewards: 10
+  applies_to:
+  - GET /v2.1/rewards
+  - GET /v2.1/users/{user_id}/rewards
+  - GET /v2.1/activities/extended
+  - GET /v2.1/users/{user_id}/activities/extended
+  - GET /v2.1/badges
+  out_of_range_behavior: >-
+    A page number beyond the last available page returns an empty array plus a link to the last
+    available page; an invalid page returns an empty array plus a link to page 1.
+  response_links: true
+  note: >-
+    Pagination is a v2.1 addition. The v2 "(legacy)" variants of the same endpoints are
+    unpaginated.
+identity_resolution:
+  param: id_type
+  detail: >-
+    Most user-scoped endpoints accept a caller-chosen identifier type rather than a single
+    surrogate key. Supported values are email, facebook_user_id, twitter_user_id,
+    id (the CrowdTwist ID, and the default when id_type is omitted), third_party_id, username,
+    mobile_phone_number, and inst_username (Instagram).
+  note: >-
+    This is the closest thing CrowdTwist has to an expansion/lookup convention and it is the
+    single most important integration detail on the API — omitting id_type silently changes
+    which key the path segment is matched against.
+custom_data:
+  mechanism: custom_data / extra_data objects
+  detail: >-
+    Client-defined attributes ride along on activity credits, purchases and redemptions in a
+    free-form `custom_data` (commerce) or `extra_data` (activities) object. The permitted keys
+    are configured per program by the CrowdTwist account team, not published in the API docs.
+idempotency:
+  supported: partial
+  header: null
+  mechanism: natural-key deduplication on the commerce endpoint only
+  detail: >-
+    The Purchase endpoint requires a `receipt_id` that Oracle documents as "a unique identifier
+    of this request", and rejects repeats with a 4xx `not_unique` / "Duplicate receipt_image_id
+    for given client" error. That gives commerce writes de-duplication, but there is no
+    Idempotency-Key header, no documented replay window, and no idempotency contract on the
+    user, activity, redemption or coupon endpoints.
+  retry_guidance: >-
+    Oracle publishes an API failover strategy telling clients to handle 5xx gracefully and retry,
+    but does not state which operations are safe to retry.
+  pointer_note: >-
+    Deliberately NOT wired as a canonical `Idempotency` pointer in apis.yml. One endpoint with a
+    unique-request field is not an API-wide idempotency contract, and asserting one would credit
+    CrowdTwist with a guarantee it does not publish.
+  evidence: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
+request_id_tracing:
+  supported: false
+  detail: No correlation/request-id header is documented on any endpoint.
+rate_limit_signaling:
+  documented_headers: []
+  detail: >-
+    A 10,000 requests-per-minute ceiling is published in the Oracle CrowdTwist Cloud Service
+    Service Descriptions, but no RateLimit-*/X-RateLimit-*/Retry-After response header and no
+    429 status is documented anywhere in the developer docs. See rate-limits/.
+error_envelope:
+  shapes:
+  - context: most endpoints
+    fields:
+    - error
+    - message
+    example: '{"error": "over_redeem_limit", "message": "User can only redeem 5 of this reward."}'
+  - context: commerce / POS endpoints (purchase, fulfillment, return)
+    fields:
+    - system
+    - reason
+    - description
+    - message
+  rfc9457: false
+  detail: >-
+    Two different error envelopes coexist. Neither is application/problem+json; both are plain
+    application/json. See errors/crowdtwist-error-codes.yml.
+dates_and_formats:
+  timestamps: Unix epoch seconds on request/response fields; ISO-8601 on Data Push payloads
+  currency: ISO-4217 codes, validated
+  language: ISO 639-1 style codes, published as a fixed list (LanguageCodes)
+  field_validation: >-
+    Name and email fields carry published regular expressions; see the User Formatting Rules page.
+cross_links:
+  errors: errors/crowdtwist-error-codes.yml
+  lifecycle: lifecycle/crowdtwist-lifecycle.yml
+  authentication: authentication/crowdtwist-authentication.yml
+  rate_limits: rate-limits/crowdtwist-rate-limits.yml
+  webhooks: asyncapi/crowdtwist-data-push-webhooks.yml
