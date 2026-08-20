@@ -50,6 +50,21 @@ tags:
 - Retail
 - Commerce
 - Segmentation
+- Webhook
+tags_raw:
+- Company
+- Loyalty
+- Customer Engagement
+- Marketing
+- Gamification
+- Rewards
+- Oracle
+- CX Marketing
+- Loyalty Programs
+- Points
+- Retail
+- Commerce
+- Segmentation
 - Webhooks
 apis:
 - aid: crowdtwist-loyalty
@@ -92,6 +107,11 @@ apis:
   humanURL: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
   baseURL: https://pos{client_id}.crowdtwist.com
   tags:
+  - Commerce
+  - Point-of-Sale
+  - Receipts
+  - Fulfillment
+  tags_raw:
   - Commerce
   - Point of Sale
   - Receipts
