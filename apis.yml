@@ -11,15 +11,21 @@ deliveryModel:
   generated: '2026-08-28'
   method: derived
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: paid
+  onboarding: approval
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
+  label: Paid · Requires approval
+  confidence: high
+  source:
+  - plans
+  - authentication
+  - rate-limits
+  - security
+  - sandbox
+  - {url: 'https://crowdtwist.com/', status: 301, note: 'declared website redirects to https://www.oracle.com/corporate/acquisitions/crowdtwist/ — a different registrable domain (crowdtwist.com -> oracle.com), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/crowdtwist.png
 name: CrowdTwist
