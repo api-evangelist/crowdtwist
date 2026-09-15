@@ -24,22 +24,23 @@ accessModel:
   - rate-limits
   - security
   - sandbox
-  - {url: 'https://crowdtwist.com/', status: 301, note: 'declared website redirects to https://www.oracle.com/corporate/acquisitions/crowdtwist/ — a different registrable domain (crowdtwist.com -> oracle.com), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
+  - url: https://crowdtwist.com/
+    status: 301
+    note: declared website redirects to https://www.oracle.com/corporate/acquisitions/crowdtwist/ — a
+      different registrable domain (crowdtwist.com -> oracle.com), possible rename or acquisition (probed
+      2026-09-03, roadmap#169)
   generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/crowdtwist.png
 name: CrowdTwist
-description: >-
-  CrowdTwist is a customer loyalty and engagement platform founded in New York
-  City in 2009 and accelerated through Techstars. It lets consumer brands build
-  multi-channel loyalty programs that reward customers for purchases, social
-  sharing, referrals, and other engagement across web, mobile, email, and social
-  channels, with points redeemable for rewards. CrowdTwist exposed a REST API
-  for managing members, tracking earning and redemption activities, and
-  administering points, tiers, and campaigns. Oracle acquired CrowdTwist in
-  March 2019 and folded it into Oracle CX Marketing as Oracle CrowdTwist Loyalty
-  and Engagement; the standalone crowdtwist.com site now redirects to Oracle and
-  the developer documentation is hosted on Oracle Help Center.
+description: CrowdTwist is a customer loyalty and engagement platform founded in New York City in 2009
+  and accelerated through Techstars. It lets consumer brands build multi-channel loyalty programs that
+  reward customers for purchases, social sharing, referrals, and other engagement across web, mobile,
+  email, and social channels, with points redeemable for rewards. CrowdTwist exposed a REST API for managing
+  members, tracking earning and redemption activities, and administering points, tiers, and campaigns.
+  Oracle acquired CrowdTwist in March 2019 and folded it into Oracle CX Marketing as Oracle CrowdTwist
+  Loyalty and Engagement; the standalone crowdtwist.com site now redirects to Oracle and the developer
+  documentation is hosted on Oracle Help Center.
 url: https://raw.githubusercontent.com/api-evangelist/crowdtwist/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -49,7 +50,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 x-status: acquired
 x-acquired-by: oracle
-x-acquired-date: '2019-03'
+x-acquired-date: 2019-03
 specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-13'
@@ -84,18 +85,16 @@ tags_raw:
 - Segmentation
 - Webhooks
 apis:
-- aid: crowdtwist-loyalty
+- aid: crowdtwist:crowdtwist-loyalty
   name: Oracle CrowdTwist Loyalty and Engagement API
-  description: >-
-    The core CrowdTwist REST/JSON API for loyalty program members and their points economy —
-    create, read, update and delete members; award points for activities; read the activity,
-    reward and badge catalogues; redeem rewards; read redemption history, usable coupons,
-    points expiration and the leaderboard. Authentication is a per-client API key sent either
-    as an api_key query parameter or an X-CT-Authorization header, with optional HMAC-SHA-256
-    request signing. Versioning is per resource: /v2, /v2.1 and /v2.2 are all current at once,
-    and superseded revisions stay online labelled "(legacy)". The host is templated per
-    customer — {client_id} is a CrowdTwist-issued number and the environment prefix selects
-    production, sandbox or a regional instance.
+  description: 'The core CrowdTwist REST/JSON API for loyalty program members and their points economy
+    — create, read, update and delete members; award points for activities; read the activity, reward
+    and badge catalogues; redeem rewards; read redemption history, usable coupons, points expiration and
+    the leaderboard. Authentication is a per-client API key sent either as an api_key query parameter
+    or an X-CT-Authorization header, with optional HMAC-SHA-256 request signing. Versioning is per resource:
+    /v2, /v2.1 and /v2.2 are all current at once, and superseded revisions stay online labelled "(legacy)".
+    The host is templated per customer — {client_id} is a CrowdTwist-issued number and the environment
+    prefix selects production, sandbox or a regional instance.'
   humanURL: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/GettingStarted.html
   baseURL: https://api{client_id}.crowdtwist.com/v2
   tags:
@@ -111,16 +110,14 @@ apis:
     url: postman/crowdtwist-starter-kit.postman_collection.json
   - type: Authentication
     url: authentication/crowdtwist-authentication.yml
-- aid: crowdtwist-commerce
+- aid: crowdtwist:crowdtwist-commerce
   name: Oracle CrowdTwist Commerce (POS) API
-  description: >-
-    The point-of-sale side of CrowdTwist, served from a separate templated host. Purchase posts
-    a receipt with line items, tenders and coupons and returns the per-item point breakdown
-    including bonus-campaign multipliers; Fulfillment marks a redemption shipped; Return
-    reverses points for a returned purchase. Authentication is the client API key in an
-    X-CT-Authorization header — HMAC signing is explicitly NOT supported on this host. The
-    receipt_id field is documented as a unique identifier per request and duplicates are
-    rejected, which makes Purchase the only de-duplicated write in the platform.
+  description: The point-of-sale side of CrowdTwist, served from a separate templated host. Purchase posts
+    a receipt with line items, tenders and coupons and returns the per-item point breakdown including
+    bonus-campaign multipliers; Fulfillment marks a redemption shipped; Return reverses points for a returned
+    purchase. Authentication is the client API key in an X-CT-Authorization header — HMAC signing is explicitly
+    NOT supported on this host. The receipt_id field is documented as a unique identifier per request
+    and duplicates are rejected, which makes Purchase the only de-duplicated write in the platform.
   humanURL: https://docs.oracle.com/en/cloud/saas/marketing/crowdtwist-develop/Developers/Purchase.html
   baseURL: https://pos{client_id}.crowdtwist.com
   tags:
