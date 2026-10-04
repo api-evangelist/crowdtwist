@@ -69,6 +69,7 @@ tags:
 - Commerce
 - Segmentation
 - Webhook
+- Loyalty & Incentives
 tags_raw:
 - Company
 - Loyalty
@@ -84,6 +85,7 @@ tags_raw:
 - Commerce
 - Segmentation
 - Webhooks
+- Loyalty & Incentives
 apis:
 - aid: crowdtwist:crowdtwist-loyalty
   name: Oracle CrowdTwist Loyalty and Engagement API
