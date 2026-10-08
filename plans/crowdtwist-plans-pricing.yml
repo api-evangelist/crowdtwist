@@ -118,3 +118,40 @@ note: >-
   method is `searched`, not `probed` — there is no machine-readable pricing or catalog endpoint
   for this product. The billing metrics and usage limits above come from a public PDF contract
   document, which is the only place Oracle states them.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units: []
+  plans:
+  - name: Oracle CrowdTwist Cloud Service
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Oracle CrowdTwist Additional Test Environment Cloud Service
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Oracle CrowdTwist Receipt Scanning Cloud Service
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Oracle CrowdTwist Additional Program Instance Cloud Service
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Oracle CrowdTwist Advanced Reporting Cloud Service
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
